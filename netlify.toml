@@ -1,0 +1,20 @@
+[build]
+  publish = "build"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "16"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production.environment]
+  REACT_APP_API_URL = "https://your-backend-url.vercel.app"
+
+[context.deploy-preview.environment]
+  REACT_APP_API_URL = "https://your-backend-url.vercel.app"
+
+[context.branch-deploy.environment]
+  REACT_APP_API_URL = "https://your-backend-url.vercel.app"

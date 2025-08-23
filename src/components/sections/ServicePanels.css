@@ -116,9 +116,6 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .service-panels {
-    padding: 60px 0;
-  }
   
   .panels-grid {
     grid-template-columns: 1fr;

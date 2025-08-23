@@ -72,6 +72,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
               className={`slide ${index === currentSlide ? 'active' : ''}`}
               style={{ backgroundImage: `url(${slide.image})` }}
             >
+
             </div>
           ))}
         </div>

@@ -188,7 +188,6 @@
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 20px;
 }
 
 .indicator {
@@ -235,6 +234,9 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .carousel-indicators{
+    margin-top: 20px;
+  }
   .image-slider {
     height: calc(100vh - 320px);
   }

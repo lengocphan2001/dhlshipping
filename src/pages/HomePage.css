@@ -1,0 +1,38 @@
+.home-page {
+  min-height: calc(100vh - 70px - 80px);
+  background: #f5f5f5;
+  padding-bottom: 80px;
+}
+
+.hero-slider {
+  /* Full screen height, no margin adjustment needed */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-page {
+    min-height: calc(100vh - 60px - 80px);
+    padding-bottom: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page {
+    min-height: calc(100vh - 50px - 60px);
+    padding-bottom: 40px;
+  }
+}
+
+/* Tablet landscape */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .home-page {
+    padding-bottom: 70px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1025px) {
+  .home-page {
+    padding-bottom: 90px;
+  }
+}

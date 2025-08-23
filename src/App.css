@@ -2,37 +2,251 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.main-content {
+  padding-top: 70px; /* Space for fixed header */
+  min-height: calc(100vh - 70px - 100px); /* Account for header and bottom nav */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.page-content {
+  padding: 20px;
+  padding-bottom: 100px; /* Space for bottom navigation */
+  min-height: calc(100vh - 70px - 100px);
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.page-content p {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+/* Remove default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  /* Prevent mobile browser address bar from affecting layout */
+  position: relative;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Ensure proper mobile behavior */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent zoom on input focus on iOS */
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Mobile-specific body fixes */
+@media (max-width: 768px) {
+  body {
+    /* Prevent mobile browser UI from affecting layout */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  /* Ensure content can scroll properly */
+  .App {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Prevent iOS Safari from hiding elements */
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 60px;
+    min-height: calc(100vh - 60px - 80px);
+  }
+  
+  .page-content {
+    min-height: calc(100vh - 60px - 80px);
+    padding: 15px;
+    padding-bottom: 80px;
+  }
+  
+  .page-content h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .page-content p {
+    font-size: 1rem;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding-top: 50px;
+    min-height: calc(100vh - 50px - 60px);
+  }
+  
+  .page-content {
+    min-height: calc(100vh - 50px - 60px);
+    padding: 10px;
+    padding-bottom: 60px;
+  }
+  
+  .page-content h1 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+  
+  .page-content p {
+    font-size: 0.9rem;
+    max-width: 300px;
+  }
+}
+
+/* Tablet landscape */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main-content {
+    padding-top: 65px;
+  }
+  
+  .page-content {
+    padding: 25px;
+    padding-bottom: 90px;
+  }
+  
+  .page-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .page-content p {
+    font-size: 1.05rem;
+    max-width: 450px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1025px) {
+  .main-content {
+    padding-top: 75px;
+  }
+  
+  .page-content {
+    padding: 30px;
+    padding-bottom: 100px;
+  }
+  
+  .page-content h1 {
+    font-size: 2.2rem;
+  }
+  
+  .page-content p {
+    font-size: 1.15rem;
+    max-width: 500px;
+  }
+}
+
+/* Fixed Contact Icon */
+.fixed-contact-icon {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  z-index: 1000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fixed-contact-icon:hover {
+  transform: scale(1.1);
+}
+
+.contact-icon-circle {
+  width: 60px;
+  height: 60px;
+  background: #E53935;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+  transition: all 0.3s ease;
+}
+
+.contact-icon-circle:hover {
+  box-shadow: 0 6px 20px rgba(229, 57, 53, 0.4);
+  transform: translateY(-2px);
+}
+
+.contact-icon-circle i {
   color: white;
+  font-size: 24px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Responsive Design for Fixed Contact Icon */
+@media (max-width: 768px) {
+  .fixed-contact-icon {
+    bottom: 80px;
+    right: 20px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .contact-icon-circle {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .contact-icon-circle i {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fixed-contact-icon {
+    bottom: 70px;
+    right: 15px;
+  }
+  
+  .contact-icon-circle {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .contact-icon-circle i {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .fixed-contact-icon {
+    bottom: 120px;
+    right: 40px;
+  }
+  
+  .contact-icon-circle {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .contact-icon-circle i {
+    font-size: 28px;
   }
 }

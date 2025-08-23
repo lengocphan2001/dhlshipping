@@ -1,0 +1,282 @@
+.sale-section {
+  background: #ff8c00;
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sale-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  height: 400px;
+}
+
+.sale-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SALE Text */
+.sale-text {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+}
+
+.sale-text h1 {
+  font-size: 8rem;
+  font-weight: 900;
+  color: #ffd700;
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  transform: rotate(-5deg);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/* Shopping Cart */
+.shopping-cart {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+  z-index: 2;
+  animation: cartMove 3s ease-in-out infinite;
+}
+
+.cart-body {
+  width: 120px;
+  height: 80px;
+  background: #c0c0c0;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+  border: 3px solid #a0a0a0;
+}
+
+.cart-bag {
+  position: absolute;
+  width: 20px;
+  height: 25px;
+  border-radius: 4px;
+}
+
+.red-bag {
+  background: #ff4444;
+  top: 10px;
+  left: 15px;
+}
+
+.green-bag {
+  background: #44ff44;
+  top: 10px;
+  left: 45px;
+}
+
+.cart-wheels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-top: -5px;
+}
+
+.wheel {
+  width: 25px;
+  height: 25px;
+  background: #333;
+  border-radius: 50%;
+  border: 2px solid #666;
+  animation: wheelSpin 1s linear infinite;
+}
+
+/* Jumping Person */
+.jumping-person {
+  position: absolute;
+  left: 30%;
+  bottom: 25%;
+  z-index: 1;
+  animation: jump 2s ease-in-out infinite;
+}
+
+.person-body {
+  position: relative;
+}
+
+.person-head {
+  width: 30px;
+  height: 30px;
+  background: #ffb366;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+.person-torso {
+  width: 40px;
+  height: 50px;
+  background: #0066cc;
+  border-radius: 8px;
+  margin-top: -5px;
+  position: relative;
+  z-index: 1;
+}
+
+.person-arms {
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  right: -10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.arm {
+  width: 8px;
+  height: 25px;
+  background: #ffb366;
+  border-radius: 4px;
+  animation: armSwing 1s ease-in-out infinite;
+}
+
+.left-arm {
+  animation-delay: 0.5s;
+}
+
+.person-legs {
+  position: absolute;
+  bottom: -20px;
+  left: 5px;
+  right: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.leg {
+  width: 10px;
+  height: 30px;
+  background: #0066cc;
+  border-radius: 4px;
+  animation: legMove 1s ease-in-out infinite;
+}
+
+.left-leg {
+  animation-delay: 0.3s;
+}
+
+/* Animations */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(-50%) rotate(-5deg);
+  }
+  40% {
+    transform: translateY(-60%) rotate(-5deg);
+  }
+  60% {
+    transform: translateY(-55%) rotate(-5deg);
+  }
+}
+
+@keyframes cartMove {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+@keyframes wheelSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes armSwing {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+@keyframes legMove {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .sale-text h1 {
+    font-size: 6rem;
+  }
+  
+  .sale-container {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sale-section {
+    padding: 60px 0;
+  }
+  
+  .sale-text h1 {
+    font-size: 4rem;
+  }
+  
+  .sale-container {
+    height: 300px;
+  }
+  
+  .cart-body {
+    width: 100px;
+    height: 70px;
+  }
+  
+  .person-torso {
+    width: 35px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sale-text h1 {
+    font-size: 3rem;
+  }
+  
+  .sale-container {
+    height: 250px;
+  }
+  
+  .cart-body {
+    width: 80px;
+    height: 60px;
+  }
+  
+  .person-torso {
+    width: 30px;
+    height: 40px;
+  }
+}

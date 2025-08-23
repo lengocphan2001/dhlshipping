@@ -1,0 +1,277 @@
+.footer {
+  background: #E53935;
+  color: white;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.footer-container {
+  /* max-width: 1200px; */
+  width: 100%;
+  /* margin: 0 auto; */
+  height: auto;
+  padding: 0 120px;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* Footer Section */
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  
+  letter-spacing: 1px;
+  text-align: left;
+}
+
+.title-separator {
+  width: 100%;
+  height: 1px;
+  background: white;
+  margin-bottom: 25px;
+  margin-left: 0;
+}
+
+.section-content {
+  flex: 1;
+  position: relative;
+}
+
+/* About Us Section */
+.section-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  
+  text-align: left;
+}
+
+.contact-icon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #E53935;
+  font-size: 18px;
+}
+
+/* Contact Information Section */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+.contact-item {
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.contact-item strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;  
+  text-align: left;
+}
+
+.contact-item p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  
+  text-align: left;
+}
+
+/* Facebook Widget Section */
+.facebook-widget {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.fb-page-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fb-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fb-avatar {
+  width: 50px;
+  height: 50px;
+  background: #FFD700;
+  border-radius: 50%;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23E53935"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>');
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.fb-details h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  
+  text-align: left;
+}
+
+.fb-details p {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.9;
+  
+  text-align: left;
+}
+
+.fb-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.fb-follow-btn,
+.fb-share-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  
+  transition: all 0.3s ease;
+}
+
+.fb-follow-btn {
+  background: #1877F2;
+  color: white;
+}
+
+.fb-follow-btn:hover {
+  background: #166FE5;
+}
+
+.fb-share-btn {
+  background: #42A5F5;
+  color: white;
+}
+
+.fb-share-btn:hover {
+  background: #1E88E5;
+}
+
+.fb-follow-btn i,
+.fb-share-btn i {
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footer-content {
+    gap: 30px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+  }
+  
+  .title-separator {
+    width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 0;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+  }
+  
+  .title-separator {
+    width: 50%;
+  }
+  
+  .contact-icon {
+    position: static;
+    margin-top: 20px;
+  }
+  
+  .fb-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 0 15px;
+  }
+  
+  .section-title {
+    font-size: 14px;
+  }
+  
+  .section-content p {
+    font-size: 13px;
+  }
+  
+  .contact-item strong {
+    font-size: 13px;
+  }
+  
+  .contact-item p {
+    font-size: 12px;
+  }
+  
+  .facebook-widget {
+    padding: 15px;
+  }
+  
+  .fb-details h4 {
+    font-size: 14px;
+  }
+  
+  .fb-details p {
+    font-size: 11px;
+  }
+  
+  .fb-follow-btn,
+  .fb-share-btn {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}

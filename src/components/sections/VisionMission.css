@@ -1,0 +1,209 @@
+.vision-mission {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header Section */
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.main-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #d40511;
+  margin-bottom: 10px;
+  
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.title-underline {
+  width: 80px;
+  height: 3px;
+  background: #d40511;
+  margin: 0 auto 20px;
+}
+
+.tagline {
+  font-size: 18px;
+  color: #333;
+  font-weight: 700;
+  
+  margin: 0;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: stretch;
+}
+
+/* Left Column - Vision & Mission */
+.vision-mission-box {
+  background: rgb(220,53,69);
+  padding: 40px;
+  border-radius: 0.375rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.vision-section h3,
+.mission-section h3 {
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vision-section p,
+.mission-section p {
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left;
+  /* position: relative; */
+}
+
+.vision-section p::before,
+.mission-section p::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+}
+
+.vision-section p:last-child,
+.mission-section p:last-child {
+  margin-bottom: 0;
+}
+
+/* Right Column - Logistics Image */
+.logistics-image {
+  background: #e9ecef;
+  overflow: hidden;
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content-wrapper {
+    gap: 30px;
+  }
+  
+  .vision-mission-box {
+    padding: 30px;
+  }
+  
+  .main-title {
+    font-size: 32px;
+  }
+  
+  .tagline {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .vision-mission {
+    padding: 60px 0;
+  }
+  
+  .section-header {
+    margin-bottom: 40px;
+  }
+  
+  .content-wrapper {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .vision-mission-box {
+    padding: 25px;
+  }
+  
+  .logistics-image {
+    min-height: 300px;
+  }
+  
+  .main-title {
+    font-size: 28px;
+  }
+  
+  .tagline {
+    font-size: 15px;
+  }
+  
+  .vision-section h3,
+  .mission-section h3 {
+    font-size: 20px;
+  }
+  
+  .vision-section p,
+  .mission-section p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vision-mission {
+    padding: 40px 0;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+  
+  .vision-mission-box {
+    padding: 20px;
+  }
+  
+  .logistics-image {
+    min-height: 250px;
+  }
+  
+  .main-title {
+    font-size: 24px;
+  }
+  
+  .tagline {
+    font-size: 14px;
+  }
+  
+  .vision-section h3,
+  .mission-section h3 {
+    font-size: 18px;
+  }
+  
+  .vision-section p,
+  .mission-section p {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+}

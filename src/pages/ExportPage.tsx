@@ -5,185 +5,133 @@ import BasicImageSlider from '../components/ui/BasicImageSlider';
 import './ExportPage.css';
 import Footer from '../components/sections/Footer';
 
-// Import product brand images
-import gangtayImage from '../assets/images/products/gangtay.jpg';
-import cameraImage from '../assets/images/products/camera.jpg';
-import taingheImage from '../assets/images/products/tainghe.jpg';
-import ugreenImage from '../assets/images/products/ugreen.jpg';
-import nintendoImage from '../assets/images/products/nintendo.jpg';
-import chicagoweberImage from '../assets/images/products/chicagoweber.jpg';
-import pengwineImage from '../assets/images/products/pengwine.jpg';
-import yataoImage from '../assets/images/products/yatao.jpg';
-import datacorImage from '../assets/images/products/datacor.jpg';
-import smallrigImage from '../assets/images/products/smallrig.jpg';
-import huionImage from '../assets/images/products/huion.jpg';
-import microsdxcImage from '../assets/images/products/microsdxc.jpg';
+// Import brand product images
+import product1Image from '../assets/images/brand_products/product1.jpg';
+import product2Image from '../assets/images/brand_products/product2.jpg';
+import product3Image from '../assets/images/brand_products/product3.jpg';
+import product4Image from '../assets/images/brand_products/product4.jpg';
+import product5Image from '../assets/images/brand_products/product5.jpg';
+import product6Image from '../assets/images/brand_products/product6.jpg';
+import product7Image from '../assets/images/brand_products/product7.jpg';
+import product8Image from '../assets/images/brand_products/product8.jpg';
+import product9Image from '../assets/images/brand_products/product9.jpg';
+import product10Image from '../assets/images/brand_products/product10.jpg';
 
 // Product brand slider images
 const sliderImages = [
   {
     id: 1,
-    name: 'Găng tay nấu ăn',
-    image: gangtayImage
+    name: 'Product 1',
+    image: product1Image
   },
   {
     id: 2,
-    name: 'Camera phát trực tuyến',
-    image: cameraImage
+    name: 'Product 2',
+    image: product2Image
   },
   {
     id: 3,
-    name: 'Tai nghe chơi game',
-    image: taingheImage
+    name: 'Product 3',
+    image: product3Image
   },
   {
     id: 4,
-    name: 'UGREEN USB C Hub',
-    image: ugreenImage
+    name: 'Product 4',
+    image: product4Image
   },
   {
     id: 5,
-    name: 'Nintendo Switch OLED',
-    image: nintendoImage
+    name: 'Product 5',
+    image: product5Image
   },
   {
     id: 6,
-    name: 'Gia vị Chicago Weber',
-    image: chicagoweberImage
+    name: 'Product 6',
+    image: product6Image
   },
   {
     id: 7,
-    name: 'Rượu vang PengWine',
-    image: pengwineImage
+    name: 'Product 7',
+    image: product7Image
   },
   {
     id: 8,
-    name: 'Máy ảnh Yatao',
-    image: yataoImage
+    name: 'Product 8',
+    image: product8Image
   },
   {
     id: 9,
-    name: 'Datacolor Spyder',
-    image: datacorImage
+    name: 'Product 9',
+    image: product9Image
   },
   {
     id: 10,
-    name: 'SMALLRIG Card Reader',
-    image: smallrigImage
-  },
-  {
-    id: 11,
-    name: 'HUION Inspiroy',
-    image: huionImage
-  },
-  {
-    id: 12,
-    name: 'Micro SDXC Card',
-    image: microsdxcImage
+    name: 'Product 10',
+    image: product10Image
   }
 ];
 
-// Popular destinations data
+// Popular destinations data - 10 items from brand_products
 const popularDestinations = [
   {
     id: 1,
-    name: 'Găng tay nấu ăn',
-    image: gangtayImage,
-    category: 'Kitchen'
-  },
-  {
-    id: 2,
-    name: 'Camera phát trực tuyến',
-    image: cameraImage,
+    name: 'Product 1',
+    image: product1Image,
     category: 'Electronics'
   },
   {
-    id: 3,
-    name: 'Tai nghe chơi game',
-    image: taingheImage,
-    category: 'Audio'
-  },
-  {
-    id: 4,
-    name: 'UGREEN USB C Hub',
-    image: ugreenImage,
+    id: 2,
+    name: 'Product 2',
+    image: product2Image,
     category: 'Accessories'
   },
   {
-    id: 5,
-    name: 'Nintendo Switch OLED',
-    image: nintendoImage,
+    id: 3,
+    name: 'Product 3',
+    image: product3Image,
     category: 'Gaming'
   },
   {
-    id: 6,
-    name: 'Gia vị Chicago Weber',
-    image: chicagoweberImage,
-    category: 'Kitchen'
-  },
-  {
-    id: 7,
-    name: 'Rượu vang PengWine',
-    image: pengwineImage,
-    category: 'Beverages'
-  },
-  {
-    id: 8,
-    name: 'Máy ảnh Yatao',
-    image: yataoImage,
-    category: 'Electronics'
-  }
-];
-
-// Top watch brands data
-const topWatchBrands = [
-  {
-    id: 1,
-    name: 'Datacolor Spyder',
-    image: datacorImage,
-    category: 'Color Analysis'
-  },
-  {
-    id: 2,
-    name: 'SMALLRIG Card Reader',
-    image: smallrigImage,
-    category: 'Accessories'
-  },
-  {
-    id: 3,
-    name: 'HUION Inspiroy',
-    image: huionImage,
-    category: 'Drawing Tablet'
-  },
-  {
     id: 4,
-    name: 'Micro SDXC Card',
-    image: microsdxcImage,
-    category: 'Storage'
+    name: 'Product 4',
+    image: product4Image,
+    category: 'Kitchen'
   },
   {
     id: 5,
-    name: 'Găng tay nấu ăn',
-    image: gangtayImage,
-    category: 'Kitchen'
+    name: 'Product 5',
+    image: product5Image,
+    category: 'Audio'
   },
   {
     id: 6,
-    name: 'Camera phát trực tuyến',
-    image: cameraImage,
+    name: 'Product 6',
+    image: product6Image,
     category: 'Electronics'
   },
   {
     id: 7,
-    name: 'Tai nghe chơi game',
-    image: taingheImage,
-    category: 'Audio'
+    name: 'Product 7',
+    image: product7Image,
+    category: 'Accessories'
   },
   {
     id: 8,
-    name: 'UGREEN USB C Hub',
-    image: ugreenImage,
-    category: 'Accessories'
+    name: 'Product 8',
+    image: product8Image,
+    category: 'Gaming'
+  },
+  {
+    id: 9,
+    name: 'Product 9',
+    image: product9Image,
+    category: 'Kitchen'
+  },
+  {
+    id: 10,
+    name: 'Product 10',
+    image: product10Image,
+    category: 'Audio'
   }
 ];
 
@@ -197,12 +145,12 @@ const ExportPage: React.FC = () => {
   return (
     <Layout>
       <div className="export-page">
-
         {/* Brand Products Section */}
         <div className="brand-products-section">
           <div className="container">
             {/* Popular Destinations */}
             <div className="brand-grid-section">
+              
               <div className="brand-grid">
                 {popularDestinations.map((item) => (
                   <div 
@@ -222,36 +170,10 @@ const ExportPage: React.FC = () => {
                 ))}
               </div>
             </div>
-
-            {/* Top Watch Brands */}
-            <div className="brand-grid-section">
-              <div className="section-header">
-                <h2>Top Watch Brands</h2>
-                <p>Premium timepieces from renowned manufacturers</p>
-              </div>
-              
-              <div className="brand-grid">
-                {topWatchBrands.map((item) => (
-                  <div 
-                    key={item.id} 
-                    className="brand-item"
-                    onClick={() => handleItemClick(item.id)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <div className="brand-image">
-                      <img src={item.image} alt={item.name} />
-                    </div>
-                    <div className="brand-info">
-                      <h3 className="brand-name">{item.name}</h3>
-                      <p className="brand-category">{item.category}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
-          <Footer />
+          
         </div>
+        <Footer />
       </div>
     </Layout>
   );

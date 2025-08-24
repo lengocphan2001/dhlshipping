@@ -20,74 +20,76 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed }) => {
 
   const menuItems: MenuItem[] = [
     {
-      id: 'dashboard',
-      title: 'Dashboard',
-      icon: 'fas fa-tachometer-alt',
-      path: '/admin'
-    },
-    {
-      id: 'charts',
-      title: 'Charts',
-      icon: 'fas fa-chart-bar',
-      children: [
-        { id: 'line-charts', title: 'Line Charts', icon: 'fas fa-chart-line', path: '/admin/charts/line' },
-        { id: 'bar-charts', title: 'Bar Charts', icon: 'fas fa-chart-bar', path: '/admin/charts/bar' },
-        { id: 'pie-charts', title: 'Pie Charts', icon: 'fas fa-chart-pie', path: '/admin/charts/pie' }
-      ]
-    },
-    {
-      id: 'widgets',
-      title: 'Widgets',
-      icon: 'fas fa-th',
-      path: '/admin/widgets'
-    },
-    {
-      id: 'tables',
-      title: 'Tables',
-      icon: 'fas fa-table',
-      children: [
-        { id: 'basic-tables', title: 'Basic Tables', icon: 'fas fa-table', path: '/admin/tables/basic' },
-        { id: 'data-tables', title: 'Data Tables', icon: 'fas fa-table', path: '/admin/tables/data' }
-      ]
-    },
-    {
-      id: 'forms',
-      title: 'Forms',
-      icon: 'fas fa-file-alt',
-      children: [
-        { id: 'basic-forms', title: 'Basic Forms', icon: 'fas fa-file-alt', path: '/admin/forms/basic' },
-        { id: 'advanced-forms', title: 'Advanced Forms', icon: 'fas fa-file-alt', path: '/admin/forms/advanced' }
-      ]
-    },
-    {
       id: 'users',
-      title: 'Users',
+      title: 'Người dùng',
       icon: 'fas fa-users',
       path: '/admin/users'
     },
     {
+      id: 'vips',
+      title: 'VIPs',
+      icon: 'fas fa-gem',
+      path: '/admin/vips'
+    },
+    {
       id: 'orders',
-      title: 'Orders',
-      icon: 'fas fa-shopping-bag',
+      title: 'Đơn hàng',
+      icon: 'fas fa-plane',
       path: '/admin/orders'
     },
     {
+      id: 'order-history',
+      title: 'Lịch sử đơn hàng',
+      icon: 'fas fa-history',
+      path: '/admin/order-history'
+    },
+    {
+      id: 'betting-sessions',
+      title: 'Phiên cược',
+      icon: 'fas fa-dice',
+      path: '/admin/betting-sessions'
+    },
+    {
+      id: 'betting-history',
+      title: 'Lịch sử cược',
+      icon: 'fas fa-chart-line',
+      path: '/admin/betting-history'
+    },
+    {
+      id: 'withdrawal-requests',
+      title: 'Yêu cầu rút tiền',
+      icon: 'fas fa-bell',
+      path: '/admin/withdrawal-requests'
+    },
+    {
+      id: 'withdrawal-history',
+      title: 'Lịch sử rút tiền',
+      icon: 'fas fa-history',
+      path: '/admin/withdrawal-history'
+    },
+    {
+      id: 'deposit-history',
+      title: 'Lịch sử nạp tiền',
+      icon: 'fas fa-history',
+      path: '/admin/deposit-history'
+    },
+    {
       id: 'products',
-      title: 'Products',
-      icon: 'fas fa-box',
+      title: 'Sản phẩm',
+      icon: 'fas fa-store',
       path: '/admin/products'
     },
     {
-      id: 'analytics',
-      title: 'Analytics',
-      icon: 'fas fa-chart-line',
-      path: '/admin/analytics'
+      id: 'payment-config',
+      title: 'Cấu hình thanh toán',
+      icon: 'fas fa-cog',
+      path: '/admin/payment-config'
     },
     {
-      id: 'settings',
-      title: 'Settings',
+      id: 'website-config',
+      title: 'Cấu hình trang web',
       icon: 'fas fa-cog',
-      path: '/admin/settings'
+      path: '/admin/website-config'
     }
   ];
 
@@ -167,33 +169,29 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed }) => {
       <div className="sidebar-header">
         {!collapsed && (
           <div className="sidebar-logo">
-            <i className="fas fa-cube"></i>
-            <span>Matrix Admin</span>
+            <div className="logo-icon">
+              <div className="logo-square logo-square-1"></div>
+              <div className="logo-square logo-square-2"></div>
+              <div className="logo-square logo-square-3"></div>
+              <div className="logo-square logo-square-4"></div>
+            </div>
+            <span className="logo-text">Matrix Admin</span>
           </div>
         )}
         {collapsed && (
           <div className="sidebar-logo-collapsed">
-            <i className="fas fa-cube"></i>
+            <div className="logo-icon">
+              <div className="logo-square logo-square-1"></div>
+              <div className="logo-square logo-square-2"></div>
+              <div className="logo-square logo-square-3"></div>
+              <div className="logo-square logo-square-4"></div>
+            </div>
           </div>
         )}
       </div>
 
       <div className="sidebar-menu">
         {menuItems.map(renderMenuItem)}
-      </div>
-
-      <div className="sidebar-footer">
-        {!collapsed && (
-          <button className="download-btn">
-            <i className="fas fa-download"></i>
-            <span>Download Free</span>
-          </button>
-        )}
-        {collapsed && (
-          <button className="download-btn-collapsed">
-            <i className="fas fa-download"></i>
-          </button>
-        )}
       </div>
     </div>
   );

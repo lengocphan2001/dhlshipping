@@ -10,12 +10,14 @@ interface ImageSliderProps {
   slides: Slide[];
   autoPlay?: boolean;
   interval?: number;
+  showProductSection?: boolean;
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ 
   slides, 
   autoPlay = true, 
-  interval = 5000 
+  interval = 5000,
+  showProductSection = true
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentProductSlide, setCurrentProductSlide] = useState(0);
@@ -42,12 +44,14 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
   }, [autoPlay, interval, slides.length]);
 
   useEffect(() => {
+    if (!showProductSection) return;
+    
     const timer = setInterval(() => {
       setCurrentProductSlide((prev) => (prev + 1) % productSlides.length);
     }, 3000);
 
     return () => clearInterval(timer);
-  }, [productSlides.length]);
+  }, [showProductSection, productSlides.length]);
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
@@ -72,7 +76,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
               className={`slide ${index === currentSlide ? 'active' : ''}`}
               style={{ backgroundImage: `url(${slide.image})` }}
             >
-
             </div>
           ))}
         </div>
@@ -99,39 +102,38 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
             />
           ))}
         </div>
-        
       </div>
 
-      {/* Product Section */}
-      <div className="product-section">
-        <div className="container text-center">
-          <div className="carousel-container">
-            
-            
-            <div className="carousel-inner">
-              {productSlides.map((slide, index) => (
-                <div
-                  key={slide.id}
-                  className={`carousel-item ${index === currentProductSlide ? 'active' : ''}`}
-                >
-                  <h2>{slide.title}</h2>
-                </div>
-              ))}
-            </div>
-            <div className="carousel-indicators">
-              {productSlides.map((_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  className={`indicator ${index === currentProductSlide ? 'active' : ''}`}
-                  onClick={() => setCurrentProductSlide(index)}
-                  aria-label={`Slide ${index + 1}`}
-                />
-              ))}
+      {/* Product Section - Conditionally rendered */}
+      {showProductSection && (
+        <div className="product-section">
+          <div className="container text-center">
+            <div className="carousel-container">
+              <div className="carousel-inner">
+                {productSlides.map((slide, index) => (
+                  <div
+                    key={slide.id}
+                    className={`carousel-item ${index === currentProductSlide ? 'active' : ''}`}
+                  >
+                    <h2>{slide.title}</h2>
+                  </div>
+                ))}
+              </div>
+              <div className="carousel-indicators">
+                {productSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    className={`indicator ${index === currentProductSlide ? 'active' : ''}`}
+                    onClick={() => setCurrentProductSlide(index)}
+                    aria-label={`Slide ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import BasicImageSlider from '../components/ui/BasicImageSlider';
 import './ExportPage.css';
@@ -187,6 +188,12 @@ const topWatchBrands = [
 ];
 
 const ExportPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleItemClick = (itemId: number) => {
+    navigate(`/product/${itemId}`);
+  };
+
   return (
     <Layout>
       <div className="export-page">
@@ -198,7 +205,12 @@ const ExportPage: React.FC = () => {
             <div className="brand-grid-section">
               <div className="brand-grid">
                 {popularDestinations.map((item) => (
-                  <div key={item.id} className="brand-item">
+                  <div 
+                    key={item.id} 
+                    className="brand-item"
+                    onClick={() => handleItemClick(item.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="brand-image">
                       <img src={item.image} alt={item.name} />
                     </div>
@@ -220,7 +232,12 @@ const ExportPage: React.FC = () => {
               
               <div className="brand-grid">
                 {topWatchBrands.map((item) => (
-                  <div key={item.id} className="brand-item">
+                  <div 
+                    key={item.id} 
+                    className="brand-item"
+                    onClick={() => handleItemClick(item.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="brand-image">
                       <img src={item.image} alt={item.name} />
                     </div>

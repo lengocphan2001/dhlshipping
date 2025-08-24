@@ -8,6 +8,7 @@ import RegisterPage from '../pages/RegisterPage';
 import ProfilePage from '../pages/ProfilePage';
 import ImportPage from '../pages/ImportPage';
 import ExportPage from '../pages/ExportPage';
+import ProductDetailPage from '../pages/ProductDetailPage';
 import AdminDashboard from '../pages/AdminDashboard';
 
 // Protected Route Component
@@ -138,6 +139,11 @@ const AppRouter: React.FC = () => {
         <Route path="/export" element={
           <ProtectedRoute>
             <ExportPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/product/:id" element={
+          <ProtectedRoute>
+            <ProductDetailPage />
           </ProtectedRoute>
         } />
         

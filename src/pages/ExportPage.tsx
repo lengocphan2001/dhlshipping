@@ -138,7 +138,7 @@ const ExportPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleItemClick = (itemId: number) => {
-    navigate(`/product/${itemId}`);
+            navigate(`/product-detail/${itemId}`);
   };
 
   return (

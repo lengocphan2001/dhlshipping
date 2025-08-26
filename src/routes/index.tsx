@@ -10,6 +10,7 @@ import ProfilePage from '../pages/ProfilePage';
 import ImportPage from '../pages/ImportPage';
 import ExportPage from '../pages/ExportPage';
 import ProductReviewPage from '../pages/ProductReviewPage';
+import ProductDetailPage from '../pages/ProductDetailPage';
 import AdminDashboard from '../pages/AdminDashboard';
 import UserManagementPage from '../pages/UserManagementPage';
 
@@ -151,6 +152,11 @@ const AppRouter: React.FC = () => {
         <Route path="/product/:id" element={
           <ProtectedRoute>
             <ProductReviewPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/product-detail/:id" element={
+          <ProtectedRoute>
+            <ProductDetailPage />
           </ProtectedRoute>
         } />
         

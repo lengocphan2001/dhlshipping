@@ -23,7 +23,12 @@ async function main() {
       role: 'ADMIN',
       isVerified: true,
       isActive: true,
-      referralCode: 'ADMIN001'
+      referralCode: 'ADMIN001',
+      balance: 1000000.00,
+      creditScore: 100,
+      bankName: 'Vietcombank',
+      accountNumber: '1234567890',
+      accountHolderName: 'ADMIN USER'
     },
   });
 
@@ -40,7 +45,12 @@ async function main() {
       role: 'USER',
       isVerified: true,
       isActive: true,
-      referralCode: 'USER001'
+      referralCode: 'USER001',
+      balance: 50000.00,
+      creditScore: 75,
+      bankName: 'BIDV',
+      accountNumber: '9876543210',
+      accountHolderName: 'SAMPLE USER'
     },
   });
 

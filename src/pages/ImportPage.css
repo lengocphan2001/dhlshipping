@@ -17,6 +17,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  margin-bottom: 10px;
 }
 
 .section-header {
@@ -41,15 +42,16 @@
 /* Products Grid */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
   margin-top: 2rem;
 }
 
 .product-card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
@@ -79,11 +81,11 @@
 }
 
 .product-info {
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 .product-title {
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 600;
   color: #333;
   margin: 0 0 1rem 0;
@@ -96,9 +98,6 @@
 }
 
 .product-price {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
   margin: 0;
 }
 
@@ -154,8 +153,8 @@
 
 @media (max-width: 480px) {
   .products-grid {
-    grid-template-columns: repeat(1, 1fr);
-    gap: 0.8rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
   
   .section-header h2 {

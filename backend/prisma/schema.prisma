@@ -23,6 +23,14 @@ model User {
   isActive      Boolean   @default(true) @map("is_active")
   isVerified    Boolean   @default(false) @map("is_verified")
   role          UserRole  @default(USER)
+  
+  // New fields for user management
+  balance       Decimal?  @db.Decimal(15, 2) @default(0)
+  creditScore   Int?      @map("credit_score") @default(0)
+  bankName      String?   @map("bank_name") @db.VarChar(100)
+  accountNumber String?   @map("account_number") @db.VarChar(50)
+  accountHolderName String? @map("account_holder_name") @db.VarChar(100)
+  
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 

@@ -14,9 +14,10 @@ interface AdminHeaderProps {
   onToggleSidebar: () => void;
   onLogout: () => void;
   user: User;
+  sidebarCollapsed?: boolean;
 }
 
-const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar, onLogout, user }) => {
+const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar, onLogout, user, sidebarCollapsed = false }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateMenu, setShowCreateMenu] = useState(false);
 
@@ -29,7 +30,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar, onLogout, us
   };
 
   return (
-    <div className="admin-header">
+    <div className={`admin-header ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       <div className="header-left">
         <button className="sidebar-toggle" onClick={onToggleSidebar}>
           <i className="fas fa-bars"></i>
@@ -94,10 +95,6 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar, onLogout, us
           <button className="user-btn" onClick={toggleUserMenu}>
             <div className="user-avatar">
               <i className="fas fa-user"></i>
-            </div>
-            <div className="user-info">
-              <span className="user-name">{user.username}</span>
-              <span className="user-role">{user.role}</span>
             </div>
             <i className="fas fa-chevron-down"></i>
           </button>

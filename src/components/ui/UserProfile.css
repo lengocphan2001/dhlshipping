@@ -1,0 +1,463 @@
+.container-site {
+  padding-bottom: 100px;
+}
+
+.user-profile {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+  min-height: auto;
+  /* border: 1px solid #e9ecef; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Welcome Header */
+.welcome-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.welcome-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.detail-link {
+  font-size: 13px;
+  cursor: pointer;
+  color: #6C757D;
+}
+
+/* Account Summary Cards */
+.account-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: #eaeaea;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+  text-align: left;
+}
+
+.card-label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  
+}
+
+.card-value {
+  font-size: 14px;
+  font-weight: 700;
+  
+}
+
+/* Shortcuts Section */
+.shortcuts-section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  
+}
+
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* gap: 12px; */
+}
+
+.shortcut-item {
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #e9ecef;
+}
+
+.shortcut-item:hover {
+  transform: translateY(-2px);
+}
+
+.shortcut-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 8px;
+  border-radius: 8px;
+  color: #333;
+}
+
+.shortcut-icon i {
+  font-size: 18px;
+}
+
+.shortcut-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Specific shortcut styling based on the image */
+.shortcut-item:nth-child(1) .shortcut-icon {
+  color: #E53935;
+}
+
+.shortcut-item:nth-child(1) .shortcut-text {
+  color: #E53935;
+}
+
+.shortcut-item:nth-child(2) .shortcut-icon {
+  color: #333;
+}
+
+.shortcut-item:nth-child(2) .shortcut-text {
+  color: #333;
+}
+
+.shortcut-item:nth-child(3) .shortcut-icon {
+  color: #333;
+}
+
+.shortcut-item:nth-child(3) .shortcut-text {
+  color: #333;
+}
+
+.shortcut-item:nth-child(4) .shortcut-icon {
+  color: #333;
+}
+
+.shortcut-item:nth-child(4) .shortcut-text {
+  color: #333;
+}
+
+/* Menu Section */
+.menu-section {
+  /* margin-bottom: 24px; */
+}
+
+.menu-list {
+  background: white;
+  /* border-radius: 10px; */
+  /* border: 1px solid #e9ecef; */
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 0px;
+  /* border-bottom: 1px solid #f1f3f4; */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.menu-item:last-child {
+  /* border-bottom: none; */
+}
+
+.menu-item:hover {
+  /* background-color: #f8f9fa; */
+}
+
+.menu-icon {
+  display: flex;
+  width: 30px;
+  margin-right: 5px;
+  color: #333;
+}
+
+.menu-icon i {
+  font-size: 16px;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  
+}
+
+.menu-arrow {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+/* Logout Item Special Styling */
+.logout-item {
+  border-top: 2px solid #f1f3f4;
+}
+
+.logout-item .menu-icon {
+  color: #E53935;
+}
+
+.logout-text {
+  color: #E53935;
+  font-weight: 600;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #f8f9fa;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.modal-close:hover {
+  background-color: #e9ecef;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-body p {
+  margin: 0;
+  font-size: 14px;
+  color: #495057;
+  
+}
+
+.modal-footer {
+  padding: 20px 24px;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  min-width: 80px;
+}
+
+.modal-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.modal-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.modal-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  color: #6c757d;
+  background-color: transparent;
+  border-color: #6c757d;
+}
+
+.cancel-button:hover:not(:disabled) {
+  color: white;
+  background-color: #6c757d;
+}
+
+.confirm-button {
+  color: #E53935;
+  background-color: transparent;
+  border-color: #E53935;
+}
+
+.confirm-button:hover:not(:disabled) {
+  color: white;
+  background-color: #E53935;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-profile {
+    padding: 12px;
+    max-width: 100%;
+    margin-top: 80px;
+  }
+  
+  .welcome-header {
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
+  .welcome-text {
+    font-size: 16px;
+  }
+  
+  .account-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .shortcuts-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .shortcut-item {
+    padding: 12px;
+  }
+  
+  .shortcut-icon {
+    height: 32px;
+    width: 32px;
+  }
+  
+  .shortcut-icon i {
+    font-size: 16px;
+  }
+  
+  
+  .menu-icon i {
+    font-size: 14px;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
+  }
+  
+  .modal-button {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-profile {
+    padding: 10px;
+  }
+
+
+  
+  .shortcuts-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  
+  .shortcut-item {
+    padding: 10px;
+  }
+  
+  .shortcut-icon {
+    height: 28px;
+    width: 28px;
+  }
+  
+  
+  .menu-icon {
+    width: 24px;
+  }
+  
+  .menu-icon i {
+    font-size: 13px;
+  }
+  
+  .modal-header h3 {
+    font-size: 16px;
+  }
+  
+  .modal-body p {
+    font-size: 13px;
+  }
+}

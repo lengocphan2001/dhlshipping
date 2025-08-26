@@ -233,7 +233,17 @@ const getProfile = async (req, res) => {
 // Update user profile
 const updateProfile = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone } = req.body;
+    const { 
+      firstName, 
+      lastName, 
+      email, 
+      phone, 
+      balance, 
+      creditScore, 
+      bankName, 
+      accountNumber, 
+      accountHolderName 
+    } = req.body;
     const userId = req.user.id;
 
     // Check if email is being changed and if it already exists
@@ -254,7 +264,12 @@ const updateProfile = async (req, res) => {
         firstName,
         lastName,
         email,
-        phone
+        phone,
+        balance: balance ? parseFloat(balance) : undefined,
+        creditScore: creditScore ? parseInt(creditScore) : undefined,
+        bankName,
+        accountNumber,
+        accountHolderName
       }
     });
 

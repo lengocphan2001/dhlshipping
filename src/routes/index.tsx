@@ -4,12 +4,14 @@ import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
+import AdminLoginPage from '../pages/AdminLoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import ProfilePage from '../pages/ProfilePage';
 import ImportPage from '../pages/ImportPage';
 import ExportPage from '../pages/ExportPage';
-import ProductDetailPage from '../pages/ProductDetailPage';
+import ProductReviewPage from '../pages/ProductReviewPage';
 import AdminDashboard from '../pages/AdminDashboard';
+import UserManagementPage from '../pages/UserManagementPage';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -61,7 +63,7 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   if (user?.role !== 'ADMIN') {
@@ -119,6 +121,11 @@ const AppRouter: React.FC = () => {
             <LoginPage />
           </PublicRoute>
         } />
+        <Route path="/admin/login" element={
+          <PublicRoute>
+            <AdminLoginPage />
+          </PublicRoute>
+        } />
         <Route path="/register" element={
           <PublicRoute>
             <RegisterPage />
@@ -143,7 +150,7 @@ const AppRouter: React.FC = () => {
         } />
         <Route path="/product/:id" element={
           <ProtectedRoute>
-            <ProductDetailPage />
+            <ProductReviewPage />
           </ProtectedRoute>
         } />
         
@@ -151,6 +158,11 @@ const AppRouter: React.FC = () => {
         <Route path="/admin" element={
           <AdminRoute>
             <AdminDashboard />
+          </AdminRoute>
+        } />
+        <Route path="/admin/users" element={
+          <AdminRoute>
+            <UserManagementPage />
           </AdminRoute>
         } />
         <Route path="/admin/*" element={

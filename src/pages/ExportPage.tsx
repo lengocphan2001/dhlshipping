@@ -17,7 +17,6 @@ import product8Image from '../assets/images/brand_products/product8.jpg';
 import product9Image from '../assets/images/brand_products/product9.jpg';
 import product10Image from '../assets/images/brand_products/product10.jpg';
 
-// Product brand slider images
 const sliderImages = [
   {
     id: 1,
@@ -164,7 +163,6 @@ const ExportPage: React.FC = () => {
                     </div>
                     <div className="brand-info">
                       <h3 className="brand-name">{item.name}</h3>
-                      <p className="brand-category">{item.category}</p>
                     </div>
                   </div>
                 ))}

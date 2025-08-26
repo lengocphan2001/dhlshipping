@@ -185,7 +185,9 @@ const ProductDetailPage: React.FC = () => {
   // Generate order ID
   
   
-  
+  const handleClickShopIcon = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   // Handle product selection
   const handleProductSelect = (productId: number) => {
@@ -323,22 +325,9 @@ const ProductDetailPage: React.FC = () => {
           <div className="action-bar-left">
             <i className="fas fa-shopping-cart"></i>
             <div className="separator"></div>
-            <div className="cart-display">
-              {selectedProducts.length === 0 ? (
-                <span className="empty-cart-text">Giỏ hàng trống</span>
-              ) : (
-                <span className="cart-items-count">
-                  Chọn <span style={{ color: '#dc3545', fontWeight: 'bold' }}>{selectedProducts.length}</span>
-                </span>
-              )}
-            </div>
           </div>
           
           <div className="action-bar-right">
-            <div className="balance-display">
-              <span className="balance-label">Tổng tiền</span>
-              <span className="balance-amount">{formatPrice(calculateTotal())}</span>
-            </div>
             <div className="balance-display" style={{ marginLeft: '15px' }}>
               <span className="balance-label">Số dư</span>
               <span className="balance-amount">0</span>

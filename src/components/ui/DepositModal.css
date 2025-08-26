@@ -1,0 +1,157 @@
+/* Deposit Modal Specific Styles */
+.deposit-modal {
+  max-width: 500px;
+}
+
+/* User Info Section */
+.user-info {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.user-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.user-detail:last-child {
+  margin-bottom: 0;
+}
+
+.user-detail label {
+  font-weight: 500;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.user-detail span {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.current-balance {
+  color: #28a745 !important;
+  font-weight: 700 !important;
+}
+
+
+
+/* Balance Preview */
+.balance-preview {
+  background: #e8f5e8;
+  border: 1px solid #c3e6c3;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.preview-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.preview-item:last-child {
+  margin-bottom: 0;
+}
+
+.preview-item span:first-child {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.preview-item span:last-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.deposit-amount {
+  color: #28a745 !important;
+  font-weight: 700 !important;
+}
+
+.preview-item.total {
+  border-top: 1px solid #c3e6c3;
+  padding-top: 8px;
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.preview-item.total span:first-child {
+  color: #333;
+  font-weight: 600;
+}
+
+.new-balance {
+  color: #28a745 !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+}
+
+/* Form Group for Deposit */
+.deposit-modal .form-group {
+  margin-bottom: 20px;
+}
+
+.deposit-modal .form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Responsive Design for Deposit Modal */
+@media (max-width: 768px) {
+  .deposit-modal {
+    max-width: 100%;
+    margin: 10px;
+  }
+  
+  .user-info {
+    padding: 12px;
+  }
+  
+  .balance-preview {
+    padding: 12px;
+  }
+  
+  .preview-item {
+    font-size: 13px;
+  }
+  
+  .preview-item.total {
+    font-size: 15px;
+  }
+  
+  .new-balance {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-detail {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .preview-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .amount-input {
+    font-size: 14px;
+  }
+}

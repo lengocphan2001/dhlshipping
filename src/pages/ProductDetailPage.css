@@ -306,9 +306,6 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .product-detail-page{
-    padding-top: 100px;
-  }
   .order-header,
   .company-name,
   .product-selection {

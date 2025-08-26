@@ -33,13 +33,14 @@
 .service-item:not(.featured) .service-link {
   color: #333;
   font-weight: 500;
-  padding: 15px 0;
+  padding: 10px;
   display: block;
   text-decoration: none;
   font-size: 12px;
   line-height: 1.4;
   transition: color 0.2s ease;
   white-space: normal;
+  text-align: left;
   word-wrap: normal;
   overflow-wrap: normal;
 }
@@ -79,7 +80,7 @@
   
   
   .service-item:not(.featured) .service-link {
-    padding: 12px 0;
+    padding: 5px 0;
     font-size: 13px;
   }
 }

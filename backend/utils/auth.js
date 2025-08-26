@@ -163,7 +163,13 @@ const getUserById = async (userId) => {
       role: true,
       isActive: true,
       isVerified: true,
-      createdAt: true
+      balance: true,
+      creditScore: true,
+      bankName: true,
+      accountNumber: true,
+      accountHolderName: true,
+      createdAt: true,
+      updatedAt: true
     }
   });
 };

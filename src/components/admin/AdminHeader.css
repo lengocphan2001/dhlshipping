@@ -7,6 +7,17 @@
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  gap: 20px;
+  top: 0;
+  left: 280px;
+  right: 0;
+  z-index: 1001;
+  transition: left 0.3s ease;
+}
+
+.admin-header.sidebar-collapsed {
+  left: 70px;
 }
 
 /* Header Left */
@@ -52,7 +63,6 @@
   align-items: center;
   gap: 20px;
   flex: 1;
-  justify-content: center;
 }
 
 .create-dropdown {
@@ -201,11 +211,6 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
-.user-btn:hover {
-  background: #f8f9fa;
-}
-
 .user-avatar {
   width: 35px;
   height: 35px;
@@ -348,6 +353,11 @@
 @media (max-width: 768px) {
   .admin-header {
     padding: 0 10px;
+    left: 0;
+  }
+  
+  .admin-header.sidebar-collapsed {
+    left: 0;
   }
   
   .header-center {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import ImageSlider from '../components/ui/ImageSlider';
 import './ImportPage.css';
@@ -111,6 +112,13 @@ const sliderImages = [
 ];
 
 const ImportPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleProductClick = (productId: number) => {
+    console.log('Product clicked:', productId);
+    navigate(`/product/${productId}`);
+  };
+
   return (
     <Layout>
       <div className="import-page">
@@ -124,7 +132,14 @@ const ImportPage: React.FC = () => {
           <div className="container">
             <div className="products-grid">
               {products.map((product) => (
-                <div key={product.id} className="product-card">
+                <div 
+                  key={product.id} 
+                  className="product-card"
+                  onClick={() => {
+                    console.log('Card clicked for product:', product.id, product.name);
+                    handleProductClick(product.id);
+                  }}
+                >
                   <div className="product-image">
                     <img src={product.image} alt={product.name} />
                   </div>

@@ -125,6 +125,124 @@ const profileUpdateValidation = [
     .matches(/^[\+]?[1-9][\d]{0,15}$/)
     .withMessage('Please provide a valid phone number'),
   
+  body('balance')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Balance must be a positive number'),
+  
+  body('creditScore')
+    .optional()
+    .isInt({ min: 0, max: 1000 })
+    .withMessage('Credit score must be between 0 and 1000'),
+  
+  body('bankName')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 100 })
+    .withMessage('Bank name must be between 1 and 100 characters'),
+  
+  body('accountNumber')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Account number must be between 1 and 50 characters'),
+  
+  body('accountHolderName')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 100 })
+    .withMessage('Account holder name must be between 1 and 100 characters'),
+  
+  handleValidationErrors
+];
+
+// Middleware to require admin role
+const requireAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      message: 'Authentication required'
+    });
+  }
+
+  if (req.user.role !== 'ADMIN') {
+    return res.status(403).json({
+      success: false,
+      message: 'Admin access required'
+    });
+  }
+
+  next();
+};
+
+// Validation rules for user update (admin)
+const userUpdateValidation = [
+  body('firstName')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 50 })
+    .withMessage('First name must be between 1 and 50 characters'),
+  
+  body('lastName')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Last name must be between 1 and 50 characters'),
+  
+  body('email')
+    .optional()
+    .isEmail()
+    .withMessage('Please provide a valid email address')
+    .normalizeEmail(),
+  
+  body('phone')
+    .optional()
+    .matches(/^[\+]?[1-9][\d]{0,15}$/)
+    .withMessage('Please provide a valid phone number'),
+  
+  body('balance')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Balance must be a positive number'),
+  
+  body('creditScore')
+    .optional()
+    .isInt({ min: 0, max: 1000 })
+    .withMessage('Credit score must be between 0 and 1000'),
+  
+  body('bankName')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 100 })
+    .withMessage('Bank name must be between 1 and 100 characters'),
+  
+  body('accountNumber')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Account number must be between 1 and 50 characters'),
+  
+  body('accountHolderName')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 100 })
+    .withMessage('Account holder name must be between 1 and 100 characters'),
+  
+  body('role')
+    .optional()
+    .isIn(['USER', 'ADMIN', 'MODERATOR'])
+    .withMessage('Invalid role'),
+  
+  body('isActive')
+    .optional()
+    .isBoolean()
+    .withMessage('isActive must be a boolean'),
+  
+  body('isVerified')
+    .optional()
+    .isBoolean()
+    .withMessage('isVerified must be a boolean'),
+  
   handleValidationErrors
 ];
 
@@ -134,5 +252,7 @@ module.exports = {
   passwordResetValidation,
   passwordChangeValidation,
   profileUpdateValidation,
+  requireAdmin,
+  userUpdateValidation,
   handleValidationErrors
 };

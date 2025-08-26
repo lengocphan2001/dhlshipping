@@ -78,7 +78,7 @@ const UserManagementPage: React.FC = () => {
         ...(searchTerm && { search: searchTerm })
       });
 
-      const response = await fetch(`http://localhost:5000/api/users?${params}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ninetails.site/api'}/users?${params}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -155,7 +155,7 @@ const UserManagementPage: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`http://localhost:5000/api/users/${userId}/balance`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ninetails.site/api'}/users/${userId}/balance`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -202,7 +202,7 @@ const UserManagementPage: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`http://localhost:5000/api/users/${selectedUser.id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ninetails.site/api'}/users/${selectedUser.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -51,7 +51,7 @@ const UserProfile: React.FC = () => {
           throw new Error('No authentication token found');
         }
 
-        const response = await fetch('http://localhost:5000/api/auth/profile', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ninetails.site/api'}/auth/profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

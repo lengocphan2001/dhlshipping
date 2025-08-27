@@ -41,8 +41,14 @@ export const getImageUrl = (imagePath: string): string => {
   }
 
   // For relative paths, construct the full URL
-  // Images are served from the backend API
+  // Images are served from the backend at /images path
   const baseUrl = env.API_BASE_URL.replace('/api', '');
   const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+  
+  // Ensure the path starts with /images if it's a product image
+  if (cleanPath.includes('products/') && !cleanPath.startsWith('/images/')) {
+    return `${baseUrl}/images${cleanPath}`;
+  }
+  
   return `${baseUrl}${cleanPath}`;
 };

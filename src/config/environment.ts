@@ -41,7 +41,8 @@ export const getImageUrl = (imagePath: string): string => {
   }
 
   // For relative paths, construct the full URL
-  const baseUrl = env.BASE_URL;
+  // Images are served from the backend API
+  const baseUrl = env.API_BASE_URL.replace('/api', '');
   const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
   return `${baseUrl}${cleanPath}`;
 };

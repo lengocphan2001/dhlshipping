@@ -7,11 +7,13 @@ import { getImageUrl } from '../config/environment';
 import './ProductReviewPage.css';
 import Footer from '../components/sections/Footer';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 const ProductReviewPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
+  const { showToast } = useToast();
   const [product, setProduct] = useState<Product | null>(null);
   const [reviews, setReviews] = useState<ProductReview[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,13 +81,13 @@ const ProductReviewPage: React.FC = () => {
 
   const handleSubmitReview = async () => {
     if (!isAuthenticated || !user) {
-      alert('Vui lòng đăng nhập để đánh giá sản phẩm');
+      showToast('warning', 'Vui lòng đăng nhập để đánh giá sản phẩm');
       navigate('/login');
       return;
     }
 
     if (!product || !rating || !reviewText.trim()) {
-      alert('Vui lòng chọn số sao và nhập đánh giá');
+      showToast('warning', 'Vui lòng chọn số sao và nhập đánh giá');
       return;
     }
 
@@ -114,14 +116,14 @@ const ProductReviewPage: React.FC = () => {
         // Refresh reviews
         await fetchProductAndReviews();
 
-        alert('Đánh giá đã được gửi thành công!');
+        showToast('success', 'Đánh giá đã được gửi thành công!');
       } else {
         throw new Error(response.message || 'Failed to submit review');
       }
     } catch (error) {
       console.error('Error submitting review:', error);
       const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại.';
-      alert(errorMessage);
+      showToast('error', errorMessage);
     } finally {
       setSubmitting(false);
     }

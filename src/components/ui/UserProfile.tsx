@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { apiService } from '../../services/api';
 import Alert from './Alert';
 import './UserProfile.css';
 import Footer from '../sections/Footer';
@@ -52,24 +53,12 @@ const UserProfile: React.FC = () => {
           throw new Error('No authentication token found');
         }
 
-        const response = await fetch(`http://localhost:5000/api/auth/profile`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const response = await apiService.getProfile();
         
-        if (data.success) {
-          setUserData(data.data.user);
+        if (response.success && response.data) {
+          setUserData(response.data.user);
         } else {
-          throw new Error(data.message || 'Failed to fetch user data');
+          throw new Error(response.message || 'Failed to fetch user data');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);

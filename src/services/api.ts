@@ -107,6 +107,10 @@ class ApiService {
     return response.data.user;
   }
 
+  async getProfile(): Promise<ApiResponse<any>> {
+    return this.request('/auth/profile');
+  }
+
   async updateProfile(userData: Partial<User>): Promise<ApiResponse<User>> {
     const response = await this.request<any>('/auth/profile', {
       method: 'PUT',
@@ -149,25 +153,48 @@ class ApiService {
   }
 
   // Admin-specific methods
-  async getUsers(): Promise<ApiResponse<User[]>> {
-    return this.request<User[]>('/admin/users');
+
+  async getDashboardStats(): Promise<ApiResponse<any>> {
+    return this.request('/admin/dashboard/stats');
   }
 
-  async updateUser(userId: string, userData: Partial<User>): Promise<ApiResponse<User>> {
-    return this.request<User>(`/admin/users/${userId}`, {
+  // User management methods (for admin panel)
+  async getUsers(params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
+  }): Promise<ApiResponse<any>> {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.search) queryParams.append('search', params.search);
+
+    const endpoint = queryParams.toString() ? `/users?${queryParams.toString()}` : '/users';
+    return this.request(endpoint);
+  }
+
+  async getUser(id: number): Promise<ApiResponse<any>> {
+    return this.request(`/users/${id}`);
+  }
+
+  async updateUser(id: number, userData: any): Promise<ApiResponse<any>> {
+    return this.request(`/users/${id}`, {
       method: 'PUT',
       body: JSON.stringify(userData),
     });
   }
 
-  async deleteUser(userId: string): Promise<ApiResponse> {
-    return this.request(`/admin/users/${userId}`, {
+  async deleteUser(id: number): Promise<ApiResponse<any>> {
+    return this.request(`/users/${id}`, {
       method: 'DELETE',
     });
   }
 
-  async getDashboardStats(): Promise<ApiResponse<any>> {
-    return this.request('/admin/dashboard/stats');
+  async updateUserBalance(userId: number, amount: number): Promise<ApiResponse<any>> {
+    return this.request(`/users/${userId}/balance`, {
+      method: 'PATCH',
+      body: JSON.stringify({ amount }),
+    });
   }
 
   // Product methods

@@ -1,41 +1,24 @@
+import { config } from './config';
+
 // Environment Configuration
 interface EnvironmentConfig {
   API_BASE_URL: string;
+  BASE_URL: string;
   NODE_ENV: string;
   IS_DEVELOPMENT: boolean;
   IS_PRODUCTION: boolean;
 }
 
 const getEnvironmentConfig = (): EnvironmentConfig => {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isDevelopment = config.ENV === 'development';
+  const isProduction = config.ENV === 'production';
 
-  // Development configuration
-  if (isDevelopment) {
-    return {
-      API_BASE_URL: 'http://localhost:5000/api',
-      NODE_ENV: 'development',
-      IS_DEVELOPMENT: true,
-      IS_PRODUCTION: false
-    };
-  }
-
-  // Production configuration
-  if (isProduction) {
-    return {
-      API_BASE_URL: 'https://ninetails.site/api',
-      NODE_ENV: 'production',
-      IS_DEVELOPMENT: false,
-      IS_PRODUCTION: true
-    };
-  }
-
-  // Default to development
   return {
-    API_BASE_URL: 'http://localhost:5000/api',
-    NODE_ENV: 'development',
-    IS_DEVELOPMENT: true,
-    IS_PRODUCTION: false
+    API_BASE_URL: config.API_BASE_URL,
+    BASE_URL: config.BASE_URL,
+    NODE_ENV: config.ENV,
+    IS_DEVELOPMENT: isDevelopment,
+    IS_PRODUCTION: isProduction
   };
 };
 
@@ -58,7 +41,7 @@ export const getImageUrl = (imagePath: string): string => {
   }
 
   // For relative paths, construct the full URL
-  const baseUrl = env.IS_DEVELOPMENT ? 'http://localhost:5000' : 'https://ninetails.site';
+  const baseUrl = env.BASE_URL;
   const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
   return `${baseUrl}${cleanPath}`;
 };

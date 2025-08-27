@@ -5,11 +5,14 @@ import { Product, ProductCreateRequest } from '../types';
 import AdminHeader from '../components/admin/AdminHeader';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import { getApiUrl, getImageUrl } from '../config/environment';
+import { useToast } from '../context/ToastContext';
+import ConfirmDialog from '../components/ui/ConfirmDialog';
 import './ProductManagementPage.css';
 
 const ProductManagementPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { showToast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +28,8 @@ const ProductManagementPage: React.FC = () => {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<number | null>(null);
   const [formData, setFormData] = useState<ProductCreateRequest>({
     name: '',
     description: '',
@@ -200,12 +205,13 @@ const ProductManagementPage: React.FC = () => {
         setSelectedImage(null);
         setImagePreview('');
         await fetchProducts();
+        showToast('success', 'Sản phẩm đã được tạo thành công!');
       } else {
         throw new Error(result.message || 'Failed to create product');
       }
     } catch (error) {
       console.error('Error creating product:', error);
-      setError(error instanceof Error ? error.message : 'Failed to create product');
+      showToast('error', 'Có lỗi xảy ra khi tạo sản phẩm');
     }
   };
 
@@ -273,19 +279,23 @@ const ProductManagementPage: React.FC = () => {
         setSelectedImage(null);
         setImagePreview('');
         await fetchProducts();
+        showToast('success', 'Sản phẩm đã được cập nhật thành công!');
       } else {
         throw new Error(result.message || 'Failed to update product');
       }
     } catch (error) {
       console.error('Error updating product:', error);
-      setError(error instanceof Error ? error.message : 'Failed to update product');
+      showToast('error', 'Có lỗi xảy ra khi cập nhật sản phẩm');
     }
   };
 
   const handleDeleteProduct = async (productId: number) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-      return;
-    }
+    setProductToDelete(productId);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDeleteProduct = async () => {
+    if (!productToDelete) return;
 
     try {
       const token = localStorage.getItem('token');
@@ -293,7 +303,7 @@ const ProductManagementPage: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-             const response = await fetch(getApiUrl(`/products/${productId}`), {
+      const response = await fetch(getApiUrl(`/products/${productToDelete}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -310,13 +320,22 @@ const ProductManagementPage: React.FC = () => {
 
       if (result.success) {
         await fetchProducts();
+        showToast('success', 'Sản phẩm đã được xóa thành công!');
       } else {
         throw new Error(result.message || 'Failed to delete product');
       }
     } catch (error) {
       console.error('Error deleting product:', error);
-      setError(error instanceof Error ? error.message : 'Failed to delete product');
+      showToast('error', 'Có lỗi xảy ra khi xóa sản phẩm');
+    } finally {
+      setShowDeleteConfirm(false);
+      setProductToDelete(null);
     }
+  };
+
+  const cancelDeleteProduct = () => {
+    setShowDeleteConfirm(false);
+    setProductToDelete(null);
   };
 
   const formatPrice = (price: number | string) => {
@@ -491,7 +510,6 @@ const ProductManagementPage: React.FC = () => {
                   <th>Danh mục</th>
                   <th>Giá</th>
                   <th>Tồn kho</th>
-                  <th>Trạng thái</th>
                   <th>Thời gian tạo</th>
                   <th>Cập nhật lần cuối</th>
                   <th>Thao tác</th>
@@ -520,11 +538,6 @@ const ProductManagementPage: React.FC = () => {
                     <td>{product.category || 'N/A'}</td>
                     <td>{formatPrice(product.price)}</td>
                     <td>{product.stock}</td>
-                    <td>
-                      <span className={`status-badge ${product.isActive ? 'active' : 'inactive'}`}>
-                        {product.isActive ? 'Hoạt động' : 'Không hoạt động'}
-                      </span>
-                    </td>
                     <td>{new Date(product.createdAt).toLocaleString('vi-VN')}</td>
                     <td>{new Date(product.updatedAt).toLocaleString('vi-VN')}</td>
                     <td className="actions">
@@ -901,6 +914,18 @@ const ProductManagementPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Confirm Delete Dialog */}
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Xác nhận xóa"
+        message="Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác."
+        confirmText="Xóa"
+        cancelText="Hủy"
+        type="danger"
+        onConfirm={confirmDeleteProduct}
+        onCancel={cancelDeleteProduct}
+      />
     </div>
   );
 };

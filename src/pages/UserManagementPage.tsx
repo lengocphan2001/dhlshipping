@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { apiService } from '../services/api';
 import AdminHeader from '../components/admin/AdminHeader';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import UserEditModal from '../components/ui/UserEditModal';
@@ -30,7 +31,7 @@ interface User {
 
 interface ApiResponse {
   success: boolean;
-  data: {
+  data?: {
     users: User[];
     pagination: {
       page: number;
@@ -78,30 +79,15 @@ const UserManagementPage: React.FC = () => {
         ...(searchTerm && { search: searchTerm })
       });
 
-      const response = await fetch(`http://localhost:5000/api/users?${params}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+      const response = await apiService.getUsers({
+        page: currentPage,
+        limit: entriesPerPage,
+        search: searchTerm || undefined
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', response.status, errorText);
+      const data: ApiResponse = response;
 
-        if (response.status === 403) {
-          throw new Error('Access denied. Please login as admin user.');
-        } else if (response.status === 401) {
-          throw new Error('Authentication failed. Please login again.');
-        } else {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-      }
-
-      const data: ApiResponse = await response.json();
-
-      if (data.success) {
+      if (data.success && data.data) {
         setUsers(data.data.users);
         setTotalUsers(data.data.pagination.total);
         setTotalPages(data.data.pagination.pages);
@@ -155,27 +141,13 @@ const UserManagementPage: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`http://localhost:5000/api/users/${userId}/balance`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ balance: amount, operation: 'add' })
-      });
+      const response = await apiService.updateUserBalance(userId, amount);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to update balance: ${response.status} ${errorText}`);
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
+      if (response.success) {
         // Refresh the users list
         await fetchUsers();
       } else {
-        throw new Error(result.message || 'Failed to update balance');
+        throw new Error(response.message || 'Failed to update balance');
       }
     } catch (error) {
       console.error('Error updating balance:', error);
@@ -202,27 +174,13 @@ const UserManagementPage: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`http://localhost:5000/api/users/${selectedUser.id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
-      });
+      const response = await apiService.updateUser(selectedUser.id, userData);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to update user: ${response.status} ${errorText}`);
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
+      if (response.success) {
         // Refresh the users list
         await fetchUsers();
       } else {
-        throw new Error(result.message || 'Failed to update user');
+        throw new Error(response.message || 'Failed to update user');
       }
     } catch (error) {
       console.error('Error updating user:', error);

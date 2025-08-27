@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
 import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './context/ToastContext';
 import AppRouter from './routes';
 
 function App() {
   return (
     <AuthProvider>
-      <AppRouter />
+      <ToastProvider>
+        <AppRouter />
+      </ToastProvider>
     </AuthProvider>
   );
 }

@@ -5,11 +5,14 @@ import { apiService } from '../services/api';
 import { ProductReview } from '../types';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import AdminHeader from '../components/admin/AdminHeader';
+import { useToast } from '../context/ToastContext';
+import ConfirmDialog from '../components/ui/ConfirmDialog';
 import './UserManagementPage.css';
 
 const ReviewManagementPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { showToast } = useToast();
   const [reviews, setReviews] = useState<ProductReview[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,6 +24,8 @@ const ReviewManagementPage: React.FC = () => {
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [totalReviews, setTotalReviews] = useState(0);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [reviewToDelete, setReviewToDelete] = useState<number | null>(null);
 
   useEffect(() => {
     fetchReviews();
@@ -44,35 +49,20 @@ const ReviewManagementPage: React.FC = () => {
         ...(selectedStatus && { status: selectedStatus })
       });
 
-      const response = await fetch(`http://localhost:5000/api/reviews?${params}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+      const response = await apiService.getReviews({
+        page: currentPage,
+        limit: entriesPerPage,
+        ...(searchTerm && { search: searchTerm }),
+        ...(selectedProduct && { productId: parseInt(selectedProduct) }),
+        ...(selectedStatus && { isApproved: selectedStatus === 'approved' })
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response error:', response.status, errorText);
-
-        if (response.status === 403) {
-          throw new Error('Access denied. Please login as admin user.');
-        } else if (response.status === 401) {
-          throw new Error('Authentication failed. Please login again.');
-        } else {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
-        setReviews(result.data.reviews);
-        setTotalReviews(result.data.pagination.total);
-        setTotalPages(result.data.pagination.pages);
+      if (response.success && response.data) {
+        setReviews(response.data.reviews);
+        setTotalReviews(response.data.pagination.total);
+        setTotalPages(response.data.pagination.pages);
       } else {
-        throw new Error(result.message || 'Failed to fetch reviews');
+        throw new Error(response.message || 'Failed to fetch reviews');
       }
     } catch (error) {
       console.error('Error fetching reviews:', error);
@@ -89,68 +79,49 @@ const ReviewManagementPage: React.FC = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`http://localhost:5000/api/reviews/${reviewId}/approve`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ isApproved })
-      });
+      const response = await apiService.approveReview(reviewId, isApproved);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to update review: ${response.status} ${errorText}`);
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
+      if (response.success) {
         await fetchReviews();
+        showToast('success', `Đánh giá đã được ${isApproved ? 'duyệt' : 'từ chối'} thành công!`);
       } else {
-        throw new Error(result.message || 'Failed to update review');
+        throw new Error(response.message || 'Failed to update review');
       }
     } catch (error) {
       console.error('Error updating review:', error);
-      setError(error instanceof Error ? error.message : 'Failed to update review');
+      showToast('error', 'Có lỗi xảy ra khi cập nhật đánh giá');
     }
   };
 
   const handleDeleteReview = async (reviewId: number) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) {
-      return;
-    }
+    setReviewToDelete(reviewId);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDeleteReview = async () => {
+    if (!reviewToDelete) return;
 
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('No authentication token found');
-      }
+      const response = await apiService.deleteReview(reviewToDelete);
 
-      const response = await fetch(`http://localhost:5000/api/reviews/${reviewId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to delete review: ${response.status} ${errorText}`);
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
+      if (response.success) {
         await fetchReviews();
+        showToast('success', 'Đánh giá đã được xóa thành công!');
       } else {
-        throw new Error(result.message || 'Failed to delete review');
+        throw new Error(response.message || 'Failed to delete review');
       }
     } catch (error) {
       console.error('Error deleting review:', error);
-      setError(error instanceof Error ? error.message : 'Failed to delete review');
+      showToast('error', 'Có lỗi xảy ra khi xóa đánh giá');
+    } finally {
+      setShowDeleteConfirm(false);
+      setReviewToDelete(null);
     }
+  };
+
+  const cancelDeleteReview = () => {
+    setShowDeleteConfirm(false);
+    setReviewToDelete(null);
   };
 
   const renderStars = (rating: number) => {
@@ -388,6 +359,18 @@ const ReviewManagementPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Confirm Delete Dialog */}
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Xác nhận xóa"
+        message="Bạn có chắc chắn muốn xóa đánh giá này? Hành động này không thể hoàn tác."
+        confirmText="Xóa"
+        cancelText="Hủy"
+        type="danger"
+        onConfirm={confirmDeleteReview}
+        onCancel={cancelDeleteReview}
+      />
     </div>
   );
 };

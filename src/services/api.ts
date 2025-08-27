@@ -170,6 +170,113 @@ class ApiService {
     return this.request('/admin/dashboard/stats');
   }
 
+  // Product methods
+  async getProducts(params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    category?: string;
+  }): Promise<ApiResponse<any>> {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.search) queryParams.append('search', params.search);
+    if (params?.category) queryParams.append('category', params.category);
+
+    const endpoint = queryParams.toString() ? `/products?${queryParams.toString()}` : '/products';
+    return this.request(endpoint);
+  }
+
+  async getProduct(id: number): Promise<ApiResponse<any>> {
+    return this.request(`/products/${id}`);
+  }
+
+  async createProduct(productData: any): Promise<ApiResponse<any>> {
+    return this.request('/products', {
+      method: 'POST',
+      body: JSON.stringify(productData),
+    });
+  }
+
+  async updateProduct(id: number, productData: any): Promise<ApiResponse<any>> {
+    return this.request(`/products/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(productData),
+    });
+  }
+
+  async deleteProduct(id: number): Promise<ApiResponse<any>> {
+    return this.request(`/products/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Review methods
+  async getReviews(params?: {
+    page?: number;
+    limit?: number;
+    productId?: number;
+    isApproved?: boolean;
+    userId?: number;
+  }): Promise<ApiResponse<any>> {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.productId) queryParams.append('productId', params.productId.toString());
+    if (params?.isApproved !== undefined) queryParams.append('isApproved', params.isApproved.toString());
+    if (params?.userId) queryParams.append('userId', params.userId.toString());
+
+    const endpoint = queryParams.toString() ? `/reviews?${queryParams.toString()}` : '/reviews';
+    return this.request(endpoint);
+  }
+
+  async getProductReviews(productId: number): Promise<ApiResponse<any>> {
+    return this.request(`/reviews?productId=${productId}`);
+  }
+
+  async createProductReview(reviewData: {
+    productId: number;
+    userId: number;
+    rating: number;
+    comment: string;
+  }): Promise<ApiResponse<any>> {
+    return this.request('/reviews', {
+      method: 'POST',
+      body: JSON.stringify(reviewData),
+    });
+  }
+
+  async getReview(id: number): Promise<ApiResponse<any>> {
+    return this.request(`/reviews/${id}`);
+  }
+
+  async createReview(reviewData: any): Promise<ApiResponse<any>> {
+    return this.request('/reviews', {
+      method: 'POST',
+      body: JSON.stringify(reviewData),
+    });
+  }
+
+  async updateReview(id: number, reviewData: any): Promise<ApiResponse<any>> {
+    return this.request(`/reviews/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(reviewData),
+    });
+  }
+
+  async deleteReview(id: number): Promise<ApiResponse<any>> {
+    return this.request(`/reviews/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async approveReview(id: number, isApproved: boolean): Promise<ApiResponse<any>> {
+    return this.request(`/reviews/${id}/approve`, {
+      method: 'PATCH',
+      body: JSON.stringify({ isApproved }),
+    });
+  }
+
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }

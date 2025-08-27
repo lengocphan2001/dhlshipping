@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import Alert from './Alert';
 import './UserProfile.css';
 import Footer from '../sections/Footer';
+import { openTelegram } from '../../config/contact';
 
 interface UserData {
   id: number;
@@ -51,7 +52,7 @@ const UserProfile: React.FC = () => {
           throw new Error('No authentication token found');
         }
 
-        const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ninetails.site/api'}/auth/profile`, {
+        const response = await fetch(`http://localhost:5000/api/auth/profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -230,7 +231,7 @@ const UserProfile: React.FC = () => {
               <div className="menu-text">Đơn hàng của tôi</div>
               <i data-v-ea369608="" className="fa-solid fa-chevron-right"></i>
             </div>
-            <div className="menu-item">
+            <div className="menu-item" onClick={openTelegram}>
               <div className="menu-icon">
                 <i className="fa-solid fa-headset"></i>
               </div>

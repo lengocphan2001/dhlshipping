@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Alert from '../components/ui/Alert';
+import { openTelegram } from '../config/contact';
 import './AdminLoginPage.css';
 
 const AdminLoginPage: React.FC = () => {
@@ -172,7 +173,14 @@ const AdminLoginPage: React.FC = () => {
               
               <div className="admin-help">
                 <p>Bạn cần hỗ trợ?</p>
-                <a href="/contact" className="help-link">
+                <a 
+                  href="#" 
+                  className="help-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openTelegram();
+                  }}
+                >
                   <i className="fas fa-headset"></i>
                   Liên hệ hỗ trợ
                 </a>

@@ -13,6 +13,8 @@ import ProductReviewPage from '../pages/ProductReviewPage';
 import ProductDetailPage from '../pages/ProductDetailPage';
 import AdminDashboard from '../pages/AdminDashboard';
 import UserManagementPage from '../pages/UserManagementPage';
+import ProductManagementPage from '../pages/ProductManagementPage';
+import ReviewManagementPage from '../pages/ReviewManagementPage';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -169,6 +171,16 @@ const AppRouter: React.FC = () => {
         <Route path="/admin/users" element={
           <AdminRoute>
             <UserManagementPage />
+          </AdminRoute>
+        } />
+        <Route path="/admin/products" element={
+          <AdminRoute>
+            <ProductManagementPage />
+          </AdminRoute>
+        } />
+        <Route path="/admin/reviews" element={
+          <AdminRoute>
+            <ReviewManagementPage />
           </AdminRoute>
         } />
         <Route path="/admin/*" element={

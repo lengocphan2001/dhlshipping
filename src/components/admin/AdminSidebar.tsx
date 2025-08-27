@@ -73,12 +73,18 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed }) => {
       icon: 'fas fa-history',
       path: '/admin/deposit-history'
     },
-    {
-      id: 'products',
-      title: 'Sản phẩm',
-      icon: 'fas fa-store',
-      path: '/admin/products'
-    },
+         {
+       id: 'products',
+       title: 'Quản lý Sản phẩm',
+       icon: 'fas fa-store',
+       path: '/admin/products'
+     },
+     {
+       id: 'reviews',
+       title: 'Quản lý Đánh giá',
+       icon: 'fas fa-star',
+       path: '/admin/reviews'
+     },
     {
       id: 'payment-config',
       title: 'Cấu hình thanh toán',

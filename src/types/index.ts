@@ -67,3 +67,75 @@ export interface NavItem {
 }
 
 export type NavItemId = 'home' | 'import' | 'export' | 'account';
+
+// Product and Review types
+export interface Product {
+  id: number;
+  name: string;
+  description?: string;
+  price: number | string;
+  image?: string;
+  category?: string;
+  stock: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  reviews?: ProductReview[];
+}
+
+export interface ProductReview {
+  id: number;
+  productId: number;
+  userId: number;
+  rating: number;
+  comment?: string;
+  tags?: string[] | string; // Can be array or JSON string from backend
+  isApproved: boolean;
+  createdAt: string;
+  updatedAt: string;
+  product?: Product;
+  user?: {
+    id: number;
+    username: string;
+    firstName?: string;
+    lastName?: string;
+  };
+  userName?: string; // For display purposes
+}
+
+export interface ProductCreateRequest {
+  name: string;
+  description?: string;
+  price: number | string;
+  image?: string;
+  category?: string;
+  stock: number;
+}
+
+export interface ProductUpdateRequest extends Partial<ProductCreateRequest> {
+  isActive?: boolean;
+}
+
+export interface ReviewCreateRequest {
+  productId: number;
+  userId: number;
+  rating: number;
+  comment?: string;
+  tags?: string[];
+}
+
+export interface ReviewUpdateRequest {
+  rating?: number;
+  comment?: string;
+  isApproved?: boolean;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+  };
+}

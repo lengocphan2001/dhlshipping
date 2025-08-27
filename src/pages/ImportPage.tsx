@@ -1,99 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import ImageSlider from '../components/ui/ImageSlider';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { apiService } from '../services/api';
+import { Product } from '../types';
 import './ImportPage.css';
 import Footer from '../components/sections/Footer';
-
-// Import product images
-import gangtayImage from '../assets/images/products/gangtay.jpg';
-import cameraImage from '../assets/images/products/camera.jpg';
-import taingheImage from '../assets/images/products/tainghe.jpg';
-import ugreenImage from '../assets/images/products/ugreen.jpg';
-import nintendoImage from '../assets/images/products/nintendo.jpg';
-import chicagoweberImage from '../assets/images/products/chicagoweber.jpg';
-import pengwineImage from '../assets/images/products/pengwine.jpg';
-import yataoImage from '../assets/images/products/yatao.jpg';
-import datacorImage from '../assets/images/products/datacor.jpg';
-import smallrigImage from '../assets/images/products/smallrig.jpg';
-import huionImage from '../assets/images/products/huion.jpg';
-import microsdxcImage from '../assets/images/products/microsdxc.jpg';
-
-// Sample product data based on the image
-const products = [
-  {
-    id: 1,
-    name: 'Găng tay nấu ăn Showaglove (Mã sản phẩm: NICE HAND)',
-    price: '115.000 VNĐ',
-    image: gangtayImage
-  },
-  {
-    id: 2,
-    name: 'Camera phát trực tuyến OBSBOT Tail Air NDI 4K',
-    price: '13.400.000 VNĐ',
-    image: cameraImage
-  },
-  {
-    id: 3,
-    name: 'Tai nghe chơi game không dây Corsair Void',
-    price: '3.600.000 VNĐ',
-    image: taingheImage
-  },
-  {
-    id: 4,
-    name: 'UGREEN Revodok 105 USB C Hub 5 trong 1',
-    price: '320.000 VNĐ',
-    image: ugreenImage
-  },
-  {
-    id: 5,
-    name: 'Máy chơi game Nintendo Switch OLED',
-    price: '7.500.000 VNĐ',
-    image: nintendoImage
-  },
-  {
-    id: 6,
-    name: 'Gia vị bít tết Chicago Weber',
-    price: '97.000 VNĐ',
-    image: chicagoweberImage
-  },
-  {
-    id: 7,
-    name: 'Rượu vang đỏ PengWine King Carmenere/Malbec',
-    price: '1.880.000 VNĐ',
-    image: pengwineImage
-  },
-  {
-    id: 8,
-    name: 'Máy ảnh kỹ thuật số Yatao dùng để chụp ảnh',
-    price: '4.432.000 VND',
-    image: yataoImage
-  },
-  {
-    id: 9,
-    name: 'Datacolor Spyder Print - Công cụ phân tích màu sắc',
-    price: '8.969.800 VND',
-    image: datacorImage
-  },
-  {
-    id: 10,
-    name: 'SMALLRIG 9 trong 1 CFexpress Type A Card Reader',
-    price: '2.346.489 VND',
-    image: smallrigImage
-  },
-  {
-    id: 11,
-    name: 'Máy tính bảng vẽ HUION Inspiroy H640',
-    price: '834.130 VND',
-    image: huionImage
-  },
-  {
-    id: 12,
-    name: 'Thẻ nhớ Micro SDXC Amazon Basics có bộ nhớ 128GB',
-    price: '288.390 VND',
-    image: microsdxcImage
-  }
-];
 
 // Sample slider images
 const sliderImages = [
@@ -113,10 +26,49 @@ const sliderImages = [
 
 const ImportPage: React.FC = () => {
   const navigate = useNavigate();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [currentPage]);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await apiService.getProducts({
+        page: currentPage,
+        limit: 12
+      });
+
+      if (response.success) {
+        setProducts(response.data.products);
+        setTotalPages(response.data.pagination.pages);
+      } else {
+        setError('Failed to fetch products');
+      }
+    } catch (error) {
+      setError('Error fetching products');
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleProductClick = (productId: number) => {
     console.log('Product clicked:', productId);
     navigate(`/product/${productId}`);
+  };
+
+  const formatPrice = (price: number | string) => {
+    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(numericPrice);
   };
 
   return (
@@ -130,30 +82,75 @@ const ImportPage: React.FC = () => {
         {/* Products Grid Section */}
         <div className="products-section">
           <div className="container">
-            <div className="products-grid">
-              {products.map((product) => (
-                <div 
-                  key={product.id} 
-                  className="product-card"
-                  onClick={() => {
-                    console.log('Card clicked for product:', product.id, product.name);
-                    handleProductClick(product.id);
-                  }}
-                >
-                  <div className="product-image">
-                    <img src={product.image} alt={product.name} />
-                  </div>
-                  <div className="product-info">
-                    <h3 className="product-title">{product.name}</h3>
-                    <p className="product-price">{product.price}</p>
-                  </div>
+            {error && (
+              <div className="error-message">
+                {error}
+                <button onClick={() => setError(null)}>×</button>
+              </div>
+            )}
+
+            {loading ? (
+              <div className="loading-container">
+                <LoadingSpinner />
+              </div>
+            ) : products.length === 0 ? (
+              <div className="no-products">
+                <i className="fas fa-box-open"></i>
+                <h3>No products available</h3>
+                <p>Please check back later for new products.</p>
+              </div>
+            ) : (
+              <>
+                <div className="products-grid">
+                  {products.map((product) => (
+                    <div 
+                      key={product.id} 
+                      className="product-card"
+                      onClick={() => handleProductClick(product.id)}
+                    >
+                      <div className="import-product-image">
+                        <img 
+                          src={product.image || '/images/placeholder.jpg'} 
+                          alt={product.name}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = '/images/placeholder.jpg';
+                          }}
+                        />
+                      </div>
+                      <div className="product-info">
+                        <h3 className="product-title-import">{product.name}</h3>
+                        <p className="product-price-import">{formatPrice(product.price)}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="pagination">
+                    <button
+                      onClick={() => setCurrentPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="pagination-btn"
+                    >
+                      <i className="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span className="page-info">Page {currentPage} of {totalPages}</span>
+                    <button
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="pagination-btn"
+                    >
+                      Next <i className="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
           <Footer />
         </div>
-        
       </div>
     </Layout>
   );

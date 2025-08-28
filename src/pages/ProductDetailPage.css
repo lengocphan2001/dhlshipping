@@ -52,7 +52,7 @@
   font-weight: 600;
 }
 
-.order-id {
+.order-id-user {
   color: #dc3545;
   font-size: 18px;
   font-weight: 600;
@@ -284,6 +284,26 @@
   background: #c82333;
 }
 
+.export-order-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.export-order-btn .spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Back Button */
 .back-button {
   position: fixed;
@@ -343,7 +363,7 @@
     text-align: left;
   }
   
-  .order-id {
+  .order-id-user {
     font-size: 16px;
     word-break: break-all;
     max-width: 100%;
@@ -400,7 +420,7 @@
     padding: 12px;
   }
   
-  .order-id {
+  .order-id-user {
     font-size: 14px;
   }
   

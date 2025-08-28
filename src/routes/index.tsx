@@ -15,6 +15,7 @@ import AdminDashboard from '../pages/AdminDashboard';
 import UserManagementPage from '../pages/UserManagementPage';
 import ProductManagementPage from '../pages/ProductManagementPage';
 import ReviewManagementPage from '../pages/ReviewManagementPage';
+import OrderManagementPage from '../pages/OrderManagementPage';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -181,6 +182,11 @@ const AppRouter: React.FC = () => {
         <Route path="/admin/reviews" element={
           <AdminRoute>
             <ReviewManagementPage />
+          </AdminRoute>
+        } />
+        <Route path="/admin/orders" element={
+          <AdminRoute>
+            <OrderManagementPage />
           </AdminRoute>
         } />
         <Route path="/admin/*" element={

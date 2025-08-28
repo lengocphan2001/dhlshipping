@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
+import { apiService } from '../services/api';
 import Layout from '../components/layout/Layout';
 import './ProductDetailPage.css';
 
@@ -125,17 +128,24 @@ const productOptions = [
   { id: 3, name: 'Sản phẩm 3', price: 0 },
   { id: 4, name: 'Sản phẩm 4', price: 0 }
 ];
-const now = new Date();
-const year = now.getFullYear();
-const month = String(now.getMonth() + 1).padStart(2, '0');
-const day = String(now.getDate()).padStart(2, '0');
-const hour = String(now.getHours()).padStart(2, '0');
-const minute = String(now.getMinutes()).padStart(2, '0');
-const second = String(now.getSeconds()).padStart(2, '0');
-const orderId = `#${year}${month}${day}${hour}${minute}${second}`;
+// Function to generate unique order ID
+const generateOrderId = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hour = String(now.getHours()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  const second = String(now.getSeconds()).padStart(2, '0');
+  const millisecond = String(now.getMilliseconds()).padStart(3, '0');
+  const random = Math.random().toString(36).substr(2, 4).toUpperCase();
+  return `#${year}${month}${day}${hour}${minute}${second}${millisecond}${random}`;
+};
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { showToast } = useToast();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
@@ -143,9 +153,12 @@ const ProductDetailPage: React.FC = () => {
   const [countdown, setCountdown] = useState(60); // 60 seconds countdown
   const [amountPerOrder, setAmountPerOrder] = useState<number>(0);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderId, setOrderId] = useState(generateOrderId());
+  const [userBalance, setUserBalance] = useState<number>(0);
+
   const product = products.find(p => p.id === parseInt(id || '1'));
-  
+
   // Create circular array by duplicating images
   const circularImages = product ? [...product.images, ...product.images, ...product.images] : [];
 
@@ -164,7 +177,7 @@ const ProductDetailPage: React.FC = () => {
   // Image slider effect
   useEffect(() => {
     if (!product) return;
-    
+
     const timer = setInterval(() => {
       setCurrentSlide((prev) => {
         const nextSlide = prev + 1;
@@ -183,14 +196,17 @@ const ProductDetailPage: React.FC = () => {
   };
 
   // Generate order ID
-  
-  
+
+
   const handleClickShopIcon = () => {
     setShowDropdown(!showDropdown);
   };
 
   // Handle product selection
   const handleProductSelect = (productId: number) => {
+    // Generate new order ID on every interaction
+    setOrderId(generateOrderId());
+
     setSelectedProducts(prev => {
       if (prev.includes(productId)) {
         return prev.filter(id => id !== productId);
@@ -198,12 +214,12 @@ const ProductDetailPage: React.FC = () => {
         return [...prev, productId];
       }
     });
-    
+
     // Initialize quantity if not set
     if (!quantities[productId]) {
       setQuantities(prev => ({ ...prev, [productId]: 1 }));
     }
-    
+
     // Show dropdown when items are selected
     if (selectedProducts.length === 0 || !selectedProducts.includes(productId)) {
       setIsDropdownVisible(true);
@@ -227,6 +243,108 @@ const ProductDetailPage: React.FC = () => {
   // Format price
   const formatPrice = (price: number) => {
     return price.toLocaleString('vi-VN');
+  };
+
+  // Show toast notification
+  const showAlert = (type: 'success' | 'error' | 'warning' | 'info', message: string) => {
+    showToast(type, message, 5000);
+  };
+
+    // Fetch user balance
+  const fetchUserBalance = async () => {
+    if (!user) return;
+    
+    try {
+      const response = await apiService.getProfile();
+      if (response.success && response.data && response.data.user) {
+        setUserBalance(response.data.user.balance || 0);
+      }
+    } catch (error) {
+      console.error('Error fetching user balance:', error);
+    }
+  };
+
+  // Fetch user balance on component mount
+  useEffect(() => {
+    fetchUserBalance();
+  }, [user]);
+
+  // Handle export order
+  const handleExportOrder = async () => {
+    // Generate new order ID when exporting
+    setOrderId(generateOrderId());
+
+    if (!user) {
+      showAlert('error', 'Vui lòng đăng nhập để xuất đơn hàng');
+      return;
+    }
+
+    if (selectedProducts.length === 0) {
+      showAlert('warning', 'Vui lòng chọn ít nhất một sản phẩm');
+      return;
+    }
+
+    if (amountPerOrder <= 0) {
+      showAlert('warning', 'Vui lòng nhập số tiền hợp lệ');
+      return;
+    }
+
+    const totalOrderAmount = amountPerOrder * selectedProducts.length;
+    if (userBalance < totalOrderAmount) {
+      showAlert('error', `Số dư không đủ. Cần ${formatPrice(totalOrderAmount)} nhưng chỉ có ${formatPrice(userBalance)}`);
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      // Create order data
+      const orderData = {
+        orderId: orderId,
+        productName: selectedProducts.map((productId) => {
+          const product = productOptions.find(p => p.id === productId);
+          return product?.name;
+        }).join(', '),
+        amount: amountPerOrder * selectedProducts.length,
+        selectedProducts: selectedProducts,
+        amountPerOrder: amountPerOrder,
+        notes: `Order created by ${user.username}`
+      };
+
+      // Save to API
+      const response = await apiService.createOrder(orderData);
+
+      if (response.success && response.data) {
+        // Update user balance from response
+        if (response.data.userBalance !== undefined) {
+          setUserBalance(response.data.userBalance);
+        }
+
+        showAlert('success', 'Đơn hàng đã được tạo thành công!');
+
+        // Reset form
+        setSelectedProducts([]);
+        setAmountPerOrder(0);
+        setIsDropdownVisible(false);
+
+        // Navigate to admin orders page after a short delay
+        setTimeout(() => {
+          navigate('/admin/orders');
+        }, 2000);
+      }
+
+    } catch (error: any) {
+      console.error('Error creating order:', error);
+
+      // Handle specific error messages
+      if (error.message && error.message.includes('Insufficient balance')) {
+        showAlert('error', 'Số dư không đủ. Vui lòng nạp tiền vào tài khoản.');
+      } else {
+        showAlert('error', 'Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!product) {
@@ -261,7 +379,7 @@ const ProductDetailPage: React.FC = () => {
             </div>
             <div className="order-right">
               <div className="order-label">Mã đơn hàng</div>
-              <div className="order-id">{orderId}</div>
+              <div className="order-id-user">{orderId}</div>
             </div>
           </div>
         </div>
@@ -297,20 +415,26 @@ const ProductDetailPage: React.FC = () => {
                   return product?.name;
                 }).join(', ')}
               </span>
-                             <i 
-                 className="fas fa-chevron-down" 
-                 onClick={() => setIsDropdownVisible(false)}
-                 style={{ cursor: 'pointer' }}
-               ></i>
+              <i
+                className="fas fa-chevron-down"
+                onClick={() => {
+                  setIsDropdownVisible(false);
+                  setOrderId(generateOrderId());
+                }}
+                style={{ cursor: 'pointer' }}
+              ></i>
             </div>
             <div className="dropdown-row">
               <span className="dropdown-label">Số tiền mỗi đơn:</span>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 className="amount-input"
                 placeholder="Vui lòng nhập Số tiền"
                 value={amountPerOrder}
-                onChange={(e) => setAmountPerOrder(Number(e.target.value) || 0)}
+                onChange={(e) => {
+                  setAmountPerOrder(Number(e.target.value) || 0);
+                  setOrderId(generateOrderId());
+                }}
               />
             </div>
             <div className="dropdown-row">
@@ -326,13 +450,26 @@ const ProductDetailPage: React.FC = () => {
             <i className="fas fa-shopping-cart"></i>
             <div className="separator"></div>
           </div>
-          
+
           <div className="action-bar-right">
             <div className="balance-display" style={{ marginLeft: '15px' }}>
               <span className="balance-label">Số dư</span>
-              <span className="balance-amount">0</span>
+              <span className="balance-amount">{formatPrice(userBalance)}</span>
             </div>
-            <button className="export-order-btn">Xuất đơn</button>
+            <button
+              className="export-order-btn"
+              onClick={handleExportOrder}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="spinner"></span>
+                  Đang xử lý...
+                </>
+              ) : (
+                'Xuất đơn'
+              )}
+            </button>
           </div>
         </div>
 

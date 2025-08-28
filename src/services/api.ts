@@ -307,6 +307,47 @@ class ApiService {
     });
   }
 
+  // Order management methods
+  async getOrders(params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    search?: string;
+  }): Promise<ApiResponse<any>> {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.status) queryParams.append('status', params.status);
+    if (params?.search) queryParams.append('search', params.search);
+
+    const endpoint = queryParams.toString() ? `/orders?${queryParams.toString()}` : '/orders';
+    return this.request(endpoint);
+  }
+
+  async getOrder(id: string): Promise<ApiResponse<any>> {
+    return this.request(`/orders/${id}`);
+  }
+
+  async createOrder(orderData: any): Promise<ApiResponse<any>> {
+    return this.request('/orders', {
+      method: 'POST',
+      body: JSON.stringify(orderData),
+    });
+  }
+
+  async updateOrderStatus(id: string, status: string): Promise<ApiResponse<any>> {
+    return this.request(`/orders/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async deleteOrder(id: string): Promise<ApiResponse<any>> {
+    return this.request(`/orders/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }

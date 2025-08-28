@@ -276,7 +276,14 @@ const updateUserBalance = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = parseInt(id);
-    const { balance, operation = 'set' } = req.body; // operation: 'set', 'add', 'subtract'
+    const { balance, operation = 'add' } = req.body; // Changed default to 'add'
+
+    console.log('UpdateUserBalance Debug:', {
+      userId,
+      balance,
+      operation,
+      body: req.body
+    });
 
     // Check if user exists
     const existingUser = await prisma.user.findUnique({
@@ -293,18 +300,38 @@ const updateUserBalance = async (req, res) => {
 
     let newBalance;
     const balanceValue = parseFloat(balance);
+    const currentBalance = parseFloat(existingUser.balance) || 0;
+
+    console.log('Balance calculation:', {
+      currentBalance,
+      balanceValue,
+      operation,
+      existingUserBalance: existingUser.balance
+    });
 
     switch (operation) {
       case 'add':
-        newBalance = (existingUser.balance || 0) + balanceValue;
+        newBalance = currentBalance + balanceValue;
         break;
       case 'subtract':
-        newBalance = (existingUser.balance || 0) - balanceValue;
+        newBalance = currentBalance - balanceValue;
         break;
       case 'set':
-      default:
         newBalance = balanceValue;
         break;
+      default:
+        newBalance = currentBalance + balanceValue; // Default to add
+        break;
+    }
+
+    console.log('New balance calculated:', newBalance);
+
+    // Ensure newBalance is a valid number
+    if (isNaN(newBalance)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid balance value'
+      });
     }
 
     // Update balance

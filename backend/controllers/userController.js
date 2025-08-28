@@ -282,7 +282,9 @@ const updateUserBalance = async (req, res) => {
       userId,
       balance,
       operation,
-      body: req.body
+      body: req.body,
+      balanceType: typeof balance,
+      balanceValue: balance
     });
 
     // Check if user exists
@@ -299,15 +301,36 @@ const updateUserBalance = async (req, res) => {
     }
 
     let newBalance;
-    const balanceValue = parseFloat(balance);
+    
+    // Handle different input types
+    let balanceValue;
+    if (typeof balance === 'string') {
+      balanceValue = parseFloat(balance);
+    } else if (typeof balance === 'number') {
+      balanceValue = balance;
+    } else {
+      balanceValue = 0;
+    }
+    
     const currentBalance = parseFloat(existingUser.balance) || 0;
 
     console.log('Balance calculation:', {
       currentBalance,
       balanceValue,
       operation,
-      existingUserBalance: existingUser.balance
+      existingUserBalance: existingUser.balance,
+      balanceType: typeof balance,
+      currentBalanceType: typeof existingUser.balance,
+      balanceValueType: typeof balanceValue
     });
+
+    // Check if balanceValue is valid
+    if (isNaN(balanceValue) || balanceValue <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid deposit amount - must be a positive number'
+      });
+    }
 
     switch (operation) {
       case 'add':
@@ -324,13 +347,19 @@ const updateUserBalance = async (req, res) => {
         break;
     }
 
-    console.log('New balance calculated:', newBalance);
+    console.log('New balance calculated:', newBalance, 'Type:', typeof newBalance);
 
     // Ensure newBalance is a valid number
     if (isNaN(newBalance)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid balance value'
+        message: 'Invalid balance value',
+        debug: {
+          currentBalance,
+          balanceValue,
+          operation,
+          newBalance
+        }
       });
     }
 

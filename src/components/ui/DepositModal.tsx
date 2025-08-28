@@ -48,7 +48,13 @@ const DepositModal: React.FC<DepositModalProps> = ({ user, isOpen, onClose, onDe
     setError(null);
 
     try {
-      await onDeposit(user.id, parseFloat(amount));
+      const depositAmount = parseFloat(amount);
+      if (isNaN(depositAmount) || depositAmount <= 0) {
+        throw new Error('Số tiền nạp phải là số dương');
+      }
+      
+      console.log('DepositModal: calling onDeposit with:', { userId: user.id, amount: depositAmount });
+      await onDeposit(user.id, depositAmount);
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to deposit');

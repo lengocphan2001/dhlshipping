@@ -136,6 +136,8 @@ const UserManagementPage: React.FC = () => {
 
   const handleDepositSubmit = async (userId: number, amount: number) => {
     try {
+      console.log('handleDepositSubmit called with:', { userId, amount, amountType: typeof amount });
+      
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('No authentication token found');

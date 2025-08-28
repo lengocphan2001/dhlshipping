@@ -277,14 +277,31 @@ const updateUserBalance = async (req, res) => {
     const { id } = req.params;
     const userId = parseInt(id);
     const { balance, operation = 'add' } = req.body; // Changed default to 'add'
+    
+    // Check if balance field is missing
+    if (balance === undefined) {
+      console.log('Balance field is missing from request body');
+      return res.status(400).json({
+        success: false,
+        message: 'Balance field is required',
+        debug: {
+          body: req.body,
+          bodyKeys: Object.keys(req.body),
+          hasBalance: 'balance' in req.body
+        }
+      });
+    }
 
     console.log('UpdateUserBalance Debug:', {
       userId,
       balance,
       operation,
       body: req.body,
+      bodyKeys: Object.keys(req.body),
       balanceType: typeof balance,
-      balanceValue: balance
+      balanceValue: balance,
+      headers: req.headers['content-type'],
+      rawBody: JSON.stringify(req.body)
     });
 
     // Check if user exists
@@ -308,8 +325,10 @@ const updateUserBalance = async (req, res) => {
       balanceValue = parseFloat(balance);
     } else if (typeof balance === 'number') {
       balanceValue = balance;
-    } else {
+    } else if (balance === null || balance === undefined) {
       balanceValue = 0;
+    } else {
+      balanceValue = parseFloat(balance);
     }
     
     const currentBalance = parseFloat(existingUser.balance) || 0;
@@ -321,14 +340,33 @@ const updateUserBalance = async (req, res) => {
       existingUserBalance: existingUser.balance,
       balanceType: typeof balance,
       currentBalanceType: typeof existingUser.balance,
-      balanceValueType: typeof balanceValue
+      balanceValueType: typeof balanceValue,
+      balanceIsNull: balance === null,
+      balanceIsUndefined: balance === undefined
     });
 
     // Check if balanceValue is valid
-    if (isNaN(balanceValue) || balanceValue <= 0) {
+    if (isNaN(balanceValue)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid deposit amount - must be a positive number'
+        message: 'Invalid deposit amount - not a valid number',
+        debug: {
+          balance,
+          balanceType: typeof balance,
+          balanceValue,
+          balanceValueType: typeof balanceValue
+        }
+      });
+    }
+    
+    if (balanceValue <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid deposit amount - must be a positive number',
+        debug: {
+          balance,
+          balanceValue
+        }
       });
     }
 

@@ -190,10 +190,10 @@ class ApiService {
     });
   }
 
-  async updateUserBalance(userId: number, amount: number): Promise<ApiResponse<any>> {
+  async updateUserBalance(userId: number, amount: number, operation: 'add' | 'subtract' | 'set' = 'add'): Promise<ApiResponse<any>> {
     return this.request(`/users/${userId}/balance`, {
       method: 'PATCH',
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify({ balance: amount, operation }),
     });
   }
 

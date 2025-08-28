@@ -127,6 +127,13 @@ class ApiService {
     return response;
   }
 
+  async updateUserProfile(profileData: any): Promise<ApiResponse<any>> {
+    return this.request('/user/profile', {
+      method: 'PUT',
+      body: JSON.stringify(profileData),
+    });
+  }
+
   async changePassword(passwords: {
     currentPassword: string;
     newPassword: string;

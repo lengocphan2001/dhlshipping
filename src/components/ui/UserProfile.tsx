@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { apiService } from '../../services/api';
 import Alert from './Alert';
 import './UserProfile.css';
@@ -29,6 +30,7 @@ interface UserData {
 
 const UserProfile: React.FC = () => {
   const { user, logout, isLoading } = useAuth();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -137,7 +139,7 @@ const UserProfile: React.FC = () => {
               ? `${userData.firstName} ${userData.lastName}` 
               : userData?.username || user.username}
           </div>
-          <div className="detail-link">
+          <div className="detail-link" onClick={() => navigate('/user/personal-info')}>
             Thông tin chi tiết
             <i data-v-ea369608="" className="fa-solid fa-chevron-right" style={{ fontSize: '10px', marginLeft: '5px' }}></i>
           </div>
@@ -161,19 +163,19 @@ const UserProfile: React.FC = () => {
         <div className="shortcuts-section">
           <h3 className="welcome-text">Lối tắt của tôi</h3>
           <div className="shortcuts-grid">
-            <div className="shortcut-item">
+            <div className="shortcut-item" onClick={() => navigate('/user/deposits')}>
               <div className="shortcut-icon">
                 <i className="fa-regular fa-square-plus"></i>
               </div>
               <div className="shortcut-text">Nạp tiền</div>
             </div>
-            <div className="shortcut-item">
+            <div className="shortcut-item" onClick={() => navigate('/user/withdrawals')}>
               <div className="shortcut-icon">
                 <i className="fa-solid fa-money-bill-transfer"></i>
               </div>
               <div className="shortcut-text">Rút tiền</div>
             </div>
-            <div className="shortcut-item">
+            <div className="shortcut-item" onClick={() => navigate('/user/orders')}>
               <div className="shortcut-icon">
                 <i className="fa-solid fa-chart-simple"></i>
               </div>
@@ -192,28 +194,28 @@ const UserProfile: React.FC = () => {
         <div className="menu-section">
           <h3 className="welcome-text">Menu của tôi</h3>
           <div className="menu-list">
-            <div className="menu-item">
+            <div className="menu-item" onClick={() => navigate('/user/personal-info')}>
               <div className="menu-icon">
                 <i className="fa-regular fa-user"></i>
               </div>
               <div className="menu-text">Thông tin cá nhân</div>
               <i data-v-ea369608="" className="fa-solid fa-chevron-right"></i>
             </div>
-            <div className="menu-item">
+            <div className="menu-item" onClick={() => navigate('/user/deposits')}>
               <div className="menu-icon">
                 <i className="fa-solid fa-credit-card"></i>
               </div>
               <div className="menu-text">Lịch sử nạp tiền</div>
               <i data-v-ea369608="" className="fa-solid fa-chevron-right"></i>
             </div>
-            <div className="menu-item">
+            <div className="menu-item" onClick={() => navigate('/user/withdrawals')}>
               <div className="menu-icon">
                 <i className="fa-solid fa-credit-card"></i>
               </div>
               <div className="menu-text">Lịch sử rút tiền</div>
               <i data-v-ea369608="" className="fa-solid fa-chevron-right"></i>
             </div>
-            <div className="menu-item">
+            <div className="menu-item" onClick={() => navigate('/user/orders')}>
               <div className="menu-icon">
                 <i className="fa-solid fa-chart-simple"></i>
               </div>

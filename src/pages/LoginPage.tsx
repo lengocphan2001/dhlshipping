@@ -151,25 +151,25 @@ const LoginPage: React.FC = () => {
                   />
                 </div>
 
-                                 <div className="form-group">
-                   <button
-                     type="submit"
-                     name="submit"
-                     className={`btn w-100 ${isLoading ? 'btn-secondary' : 'btn-outline-danger'}`}
-                     disabled={isLoading}
-                   >
-                     {isLoading ? (
-                       <LoadingSpinner 
-                         size="small" 
-                         color="danger" 
-                         text="Loading..." 
-                         showText={false}
-                       />
-                     ) : (
-                       'Đăng nhập'
-                     )}
-                   </button>
-                 </div>
+                <div className="form-group">
+                  <button
+                    type="submit"
+                    name="submit"
+                    className={`btn w-100 ${isLoading ? 'btn-secondary' : 'btn-outline-danger'}`}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <LoadingSpinner
+                        size="small"
+                        color="danger"
+                        text="Loading..."
+                        showText={false}
+                      />
+                    ) : (
+                      'Đăng nhập'
+                    )}
+                  </button>
+                </div>
               </form>
 
               <div className="mt-2 border-top border-light-subtle text-center p-2">

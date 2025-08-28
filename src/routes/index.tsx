@@ -16,6 +16,10 @@ import UserManagementPage from '../pages/UserManagementPage';
 import ProductManagementPage from '../pages/ProductManagementPage';
 import ReviewManagementPage from '../pages/ReviewManagementPage';
 import OrderManagementPage from '../pages/OrderManagementPage';
+import UserOrderHistoryPage from '../pages/UserOrderHistoryPage';
+import UserDepositHistoryPage from '../pages/UserDepositHistoryPage';
+import UserWithdrawalHistoryPage from '../pages/UserWithdrawalHistoryPage';
+import UserPersonalInfoPage from '../pages/UserPersonalInfoPage';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -160,6 +164,26 @@ const AppRouter: React.FC = () => {
         <Route path="/product-detail/:id" element={
           <ProtectedRoute>
             <ProductDetailPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/orders" element={
+          <ProtectedRoute>
+            <UserOrderHistoryPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/deposits" element={
+          <ProtectedRoute>
+            <UserDepositHistoryPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/withdrawals" element={
+          <ProtectedRoute>
+            <UserWithdrawalHistoryPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/personal-info" element={
+          <ProtectedRoute>
+            <UserPersonalInfoPage />
           </ProtectedRoute>
         } />
         

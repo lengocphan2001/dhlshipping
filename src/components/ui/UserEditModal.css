@@ -168,7 +168,7 @@
   margin-top: 20px;
 }
 
-.btn {
+.user-edit-modal .btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -183,32 +183,32 @@
   justify-content: center;
 }
 
-.btn:disabled {
+.user-edit-modal .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.btn-primary {
+.user-edit-modal .btn-primary {
   background: #E53935;
   color: white;
 }
 
-.btn-primary:hover:not(:disabled) {
+.user-edit-modal .btn-primary:hover:not(:disabled) {
   background: #d32f2f;
   transform: translateY(-1px);
 }
 
-.btn-secondary {
+.user-edit-modal .btn-secondary {
   background: #6c757d;
   color: white;
 }
 
-.btn-secondary:hover:not(:disabled) {
+.user-edit-modal .btn-secondary:hover:not(:disabled) {
   background: #5a6268;
   transform: translateY(-1px);
 }
 
-.btn i {
+.user-edit-modal .btn i {
   font-size: 12px;
 }
 

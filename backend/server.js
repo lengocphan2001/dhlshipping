@@ -9,6 +9,7 @@ require('dotenv').config();
 const { testConnection, disconnect } = require('./lib/prisma');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const userProfileRoutes = require('./routes/userProfile');
 const productRoutes = require('./routes/products');
 const reviewRoutes = require('./routes/reviews');
 const uploadRoutes = require('./routes/upload');
@@ -90,6 +91,7 @@ app.get('/health', (req, res) => {
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/user', userProfileRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/upload', uploadRoutes);

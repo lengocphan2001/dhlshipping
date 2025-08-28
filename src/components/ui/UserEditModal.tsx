@@ -94,7 +94,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({ user, isOpen, onClose, on
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content user-edit-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>Chỉnh sửa thông tin người dùng</h3>
           <button className="modal-close" onClick={onClose}>
